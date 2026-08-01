@@ -14,7 +14,7 @@
   var CONTACT = {
     whatsappNumber: "918796630295", // digits only, country code first, no + or spaces
     whatsappMessage: "Hello ADA Law Chambers, I would like to know more about your services.",
-    email: "hello@adalawchamber.com",
+    email: "hello@adalawchambers.com",
   };
 
   function initFloatingContact() {
