@@ -25,7 +25,7 @@
   --white: #ffffff;
 
   /* ---- Type ---- */
-  --font-display: "Fraunces", "Georgia", serif;
+  --font-display: "Playfair Display", "Georgia", serif;
   --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
   --font-caption: "IBM Plex Mono", monospace;
 
@@ -37,6 +37,7 @@
   --shadow-card: 0 12px 30px -14px rgba(11, 33, 24, 0.35);
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 
 /* ---------------------------------------------------------------
    RESET
@@ -161,10 +162,11 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 }
 .site-header .container {
   display: flex; align-items: center; justify-content: space-between;
-  padding-top: .9rem; padding-bottom: .9rem;
+  /* padding-top: .9rem; padding-bottom: .9rem; */
+  height: 8rem;
 }
 .brand { display: flex; align-items: center; gap: .7rem; }
-.brand img { height: 5rem; width: 5rem; border-radius: 50%; overflow: hidden; object-fit: cover; }
+.brand img { height: 10rem; width: 10rem; border-radius: 50%; overflow: hidden; object-fit: cover; }
 .brand-text { line-height: 1.1; }
 .brand-text strong { display: block; font-family: var(--font-display); font-size: 1.05rem; color: var(--green-950); }
 .brand-text span { display: block; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-700); }
