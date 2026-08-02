@@ -171,9 +171,9 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .brand-text strong { display: block; font-family: var(--font-display); font-size: 1.05rem; color: var(--green-950); }
 .brand-text span { display: block; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-700); }
 
-.main-nav ul { display: flex; align-items: center; gap: 1.9rem; }
+.main-nav ul { display: flex; align-items: center; gap: 1.5rem; }
 .main-nav a {
-  font-size: .87rem; font-weight: 600; color: var(--ink-700);
+  font-size: 1rem; font-weight:bold; color: var(--ink-700);
   padding: .4rem 0; position: relative;
 }
 .main-nav a::after {
