@@ -17,7 +17,7 @@
 
 // ===================== EDIT THESE FOUR VALUES =====================
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'project1');
+define('DB_NAME', 'u925204098_project1db');
 define('DB_USER', 'u925204098_project1db');
 define('DB_PASS', '@dityaAD7');
 // ====================================================================
