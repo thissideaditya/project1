@@ -17,15 +17,15 @@
 
 // ===================== EDIT THESE FOUR VALUES =====================
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'your_hostinger_db_name');
-define('DB_USER', 'your_hostinger_db_user');
-define('DB_PASS', 'your_hostinger_db_password');
+define('DB_NAME', 'project1');
+define('DB_USER', 'project1db');
+define('DB_PASS', '@dityaAD7');
 // ====================================================================
 
 // A random secret used only once, by api/setup-admin.php, to create
 // your first admin login. Change this to your own random string
 // before uploading, then see api/setup-admin.php for how it's used.
-define('SETUP_SECRET', 'change-this-to-a-long-random-string');
+define('SETUP_SECRET', 'LoremIpsumissimplydummytextoftheprintingandtypesetting');
 
 // Where uploaded files are stored on the server (resumes + post images)
 // and the public URL prefix used to link to them from the site.
