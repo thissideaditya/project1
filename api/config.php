@@ -26,6 +26,9 @@ define('DB_PASS', '@dityaAD7');
 // your first admin login. Change this to your own random string
 // before uploading, then see api/setup-admin.php for how it's used.
 // https://hotpink-bee-886033.hostingersite.com/api/setup-admin.php?secret=LoremIpsumissimplydummytextoftheprintingandtypesetting&email=admin@adalawchamber.com&password=@AdaPass123
+// email=admin@adalawchamber.com
+// password=@AdaPass123
+
 define('SETUP_SECRET', 'LoremIpsumissimplydummytextoftheprintingandtypesetting');
 
 // Where uploaded files are stored on the server (resumes + post images)
