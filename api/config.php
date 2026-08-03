@@ -18,13 +18,14 @@
 // ===================== EDIT THESE FOUR VALUES =====================
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'project1');
-define('DB_USER', 'project1db');
+define('DB_USER', 'u925204098_project1db');
 define('DB_PASS', '@dityaAD7');
 // ====================================================================
 
 // A random secret used only once, by api/setup-admin.php, to create
 // your first admin login. Change this to your own random string
 // before uploading, then see api/setup-admin.php for how it's used.
+// https://https//hotpink-bee-886033.hostingersite.com/api/setup-admin.php?secret=LoremIpsumissimplydummytextoftheprintingandtypesetting&email=admin@adalawchamber.com&password=@AdaPass123
 define('SETUP_SECRET', 'LoremIpsumissimplydummytextoftheprintingandtypesetting');
 
 // Where uploaded files are stored on the server (resumes + post images)
