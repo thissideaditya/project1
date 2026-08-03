@@ -16,7 +16,7 @@
 
 <div class="disclaimer-overlay" id="disclaimer-overlay" hidden>
   <div class="disclaimer-card" role="dialog" aria-modal="true" aria-labelledby="disclaimer-title">
-    <img src="assets/images/logo.jpeg" alt="" class="crest">
+    <img src="assets/images/logo.png" alt="" class="crest" style="width:5rem; height:5rem;">
     <h2 id="disclaimer-title">Disclaimer</h2>
     <p>The contents of this website (adalawchamber.com) are for general informational purposes only and do not constitute legal advice. ADA Law Chamber does not solicit work or advertise through this website as per the rules of the Bar Council of India.</p>
     <p>By accessing this website, you confirm that you are doing so voluntarily and on your own accord, that there has been no form of solicitation, advertisement, or inducement by ADA Law Chamber or its members. No attorney-client relationship is established by merely viewing this website or through any online communication. You should consult a qualified advocate for any specific legal advice.</p>
@@ -88,7 +88,7 @@
       <h2 class="section-title">Internship Application</h2>
       <div class="divider-gold"></div>
     </div>
-    <form class="form-grid" data-form="internship" onsubmit="return handleCareerSubmit(event, 'Internship')">
+    <form class="form-grid" id="internship-form" enctype="multipart/form-data">
       <div class="field"><label for="i-name">Full Name</label><input id="i-name" required></div>
       <div class="field"><label for="i-email">Email</label><input id="i-email" type="email" required></div>
       <div class="field"><label for="i-phone">Phone</label><input id="i-phone" required></div>
@@ -96,8 +96,14 @@
       <div class="field"><label for="i-year">Current Year of Study</label><input id="i-year" required></div>
       <div class="field"><label for="i-duration">Preferred Internship Duration</label><input id="i-duration" placeholder="e.g. 4 weeks"></div>
       <div class="field full"><label for="i-message">Why do you want to intern with us?</label><textarea id="i-message"></textarea></div>
-      <div class="full"><button class="btn btn--gold" type="submit">Submit Application</button>
-        <p class="form-note">Applications are reviewed by the chamber directly; there is no automated processing of this form.</p>
+      <div class="field full">
+        <label for="i-resume">Resume (PDF or DOCX, optional, max 5MB)</label>
+        <input id="i-resume" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+      </div>
+      <div class="full">
+        <div class="alert info" id="internship-status" hidden></div>
+        <button class="btn btn--gold" type="submit">Submit Application</button>
+        <p class="form-note">Applications are stored securely and reviewed by the chamber directly.</p>
       </div>
     </form>
   </div>
@@ -110,7 +116,7 @@
       <h2 class="section-title">Associate Application</h2>
       <div class="divider-gold"></div>
     </div>
-    <form class="form-grid" data-form="associate" onsubmit="return handleCareerSubmit(event, 'Associate')">
+    <form class="form-grid" id="associate-form" enctype="multipart/form-data">
       <div class="field"><label for="a-name">Full Name</label><input id="a-name" required></div>
       <div class="field"><label for="a-email">Email</label><input id="a-email" type="email" required></div>
       <div class="field"><label for="a-phone">Phone</label><input id="a-phone" required></div>
@@ -118,8 +124,14 @@
       <div class="field"><label for="a-exp">Years of Experience</label><input id="a-exp"></div>
       <div class="field"><label for="a-area">Primary Area of Interest</label><input id="a-area" placeholder="e.g. GST Litigation"></div>
       <div class="field full"><label for="a-message">Brief Note / Cover Letter</label><textarea id="a-message"></textarea></div>
-      <div class="full"><button class="btn btn--gold" type="submit">Submit Application</button>
-        <p class="form-note">Applications are reviewed by the chamber directly; there is no automated processing of this form.</p>
+      <div class="field full">
+        <label for="a-resume">Resume (PDF or DOCX, optional, max 5MB)</label>
+        <input id="a-resume" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+      </div>
+      <div class="full">
+        <div class="alert info" id="associate-status" hidden></div>
+        <button class="btn btn--gold" type="submit">Submit Application</button>
+        <p class="form-note">Applications are stored securely and reviewed by the chamber directly.</p>
       </div>
     </form>
   </div>
@@ -164,13 +176,7 @@
 </footer>
 
 <script src="js/main.js"></script>
-<script>
-function handleCareerSubmit(e, type) {
-  e.preventDefault();
-  alert(type + " application received. Thank you \u2014 our chamber will reach out if there is a fit.");
-  e.target.reset();
-  return false;
-}
-</script>
+<script src="js/api-config.js"></script>
+<script src="js/careers-form.js"></script>
 </body>
 </html>

@@ -155,22 +155,41 @@
       }
     });
 
+    var fileInput = document.getElementById("cover_image_file");
+    var preview = document.getElementById("cover_image_preview");
+    if (fileInput && preview) {
+      fileInput.addEventListener("change", function () {
+        var file = fileInput.files && fileInput.files[0];
+        if (!file) { preview.hidden = true; return; }
+        preview.src = URL.createObjectURL(file);
+        preview.hidden = false;
+      });
+    }
+
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      var payload = {
-        title: document.getElementById("title").value.trim(),
-        category: document.getElementById("category").value,
-        excerpt: document.getElementById("excerpt").value.trim(),
-        content: document.getElementById("content").value.trim(),
-        cover_image: document.getElementById("cover_image").value.trim() || "https://picsum.photos/seed/" + Date.now() + "/800/500",
-        status: document.getElementById("status").value,
-      };
-
       var saveBtn = document.getElementById("save-btn");
       saveBtn.disabled = true;
-      saveBtn.textContent = "Saving…";
+
+      var coverImage = document.getElementById("cover_image").value.trim();
+      var selectedFile = fileInput && fileInput.files && fileInput.files[0];
 
       try {
+        if (selectedFile) {
+          saveBtn.textContent = "Uploading image…";
+          coverImage = await window.ADA.data.uploadImage(selectedFile);
+        }
+
+        var payload = {
+          title: document.getElementById("title").value.trim(),
+          category: document.getElementById("category").value,
+          excerpt: document.getElementById("excerpt").value.trim(),
+          content: document.getElementById("content").value.trim(),
+          cover_image: coverImage || "https://picsum.photos/seed/" + Date.now() + "/800/500",
+          status: document.getElementById("status").value,
+        };
+
+        saveBtn.textContent = "Saving…";
         if (editId) {
           await window.ADA.data.updatePost(editId, payload);
         } else {

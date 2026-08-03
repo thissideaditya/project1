@@ -1,80 +1,198 @@
 # ADA Law Chamber — Website
 
-A fully responsive, static HTML/CSS/JS website for ADA Law Chamber, with an
-admin panel for managing the **Rules** and **Thoughts** sections (ready to
-connect to Supabase).
+A fully responsive HTML/CSS/JS website for ADA Law Chamber, with an admin
+panel for managing the **Rules** and **Thoughts** sections, backed by a
+PHP + MySQL API built for **Hostinger** hosting.
 
 ## Structure
 
 ```
 ada-law-chamber/
-├── index.html            Home
-├── about.html            About Us
-├── practice-areas.html   Practice Areas
-├── team.html             Our Team (bios, associated firms, consultants)
-├── pro-bono.html         Pro Bono
-├── insights.html         Insights landing (links to Rules / Thoughts)
-├── rules.html            Rules listing (pulls from Supabase / local store)
-├── thoughts.html         Thoughts listing (pulls from Supabase / local store)
-├── post.html             Single article template (?slug=...)
-├── careers.html          Internship + Associate application forms
-├── contact.html          Contact form + chamber details
-├── css/style.css         Single shared stylesheet (design tokens at top)
-├── js/main.js            Disclaimer gate, mobile nav, active-link logic
-├── js/experts.js         "Meet Our Experts" data + renderer (Home page)
-├── js/supabase-client.js Data layer — Supabase when configured, else
-│                         a localStorage mock store (works out of the box)
-├── js/posts-render.js    Renders Rules/Thoughts listings & single articles
-├── assets/images/logo.svg  Brand crest (green/gold)
-└── admin/
-    ├── index.html         Login
-    ├── dashboard.html     List / filter / delete posts
-    ├── editor.html        Create / edit a post
-    ├── admin.js            Login, route guard, CRUD wiring
-    └── schema.sql          Supabase table + RLS policies to run once
+├── index.html, about.html, practice-areas.html, team.html, pro-bono.html,
+│   insights.html, rules.html, thoughts.html, post.html, careers.html,
+│   contact.html                Public pages
+├── css/style.css                Single shared stylesheet (design tokens at top)
+├── js/main.js                   Disclaimer gate, mobile nav, floating WhatsApp/Email buttons
+├── js/api-config.js             ONE setting: where the PHP API lives (API_BASE_URL)
+├── js/hostinger-client.js       Talks to /api — same interface every page/admin script expects
+├── js/contact-form.js           Contact form → api/contact.php (mailto fallback if unreachable)
+├── js/careers-form.js           Both Careers forms (+ resume upload) → api/careers.php
+├── js/experts.js                "Meet Our Experts" data + renderer (Home page)
+├── js/posts-render.js           Renders Rules/Thoughts listings & single articles
+├── assets/images/                Logo + team photos
+├── admin/
+│   ├── index.html                Login
+│   ├── dashboard.html            List / filter / delete posts
+│   ├── editor.html                Create / edit a post, incl. picture upload
+│   └── admin.js                   Login, route guard, CRUD + image upload wiring
+├── api/                           PHP backend — see "Deploying to Hostinger" below
+│   ├── config.php                  Database credentials (EDIT THIS)
+│   ├── schema.sql                  MySQL tables — run once in phpMyAdmin
+│   ├── setup-admin.php             One-time script to create your admin login
+│   ├── auth.php                    Login / logout / session check
+│   ├── posts.php                   Rules & Thoughts CRUD
+│   ├── upload-image.php            Admin picture upload for post covers
+│   ├── careers.php                 Careers form submissions + resume upload
+│   └── contact.php                 Contact form submissions
+└── uploads/
+    ├── resumes/                    Uploaded PDF/DOCX resumes land here
+    └── posts/                      Admin-uploaded post cover images land here
 ```
 
-## Running locally
+## Running locally (frontend only, no database)
 
-No build step is required. Just serve the folder:
+No build step is required for the static pages:
 
 ```
 cd ada-law-chamber
 python3 -m http.server 8080
 ```
 
-Then open `http://localhost:8080`.
+Then open `http://localhost:8080`. Rules/Thoughts, the admin panel, and the
+Contact/Careers forms won't work until the database is connected (below) —
+everything else (Home, About, Team, etc.) works immediately.
 
-## Connecting Supabase
+---
 
-1. Create a project at supabase.com.
-2. Open **SQL Editor** in Supabase and run `admin/schema.sql`.
-3. Under **Authentication > Providers**, enable Email.
-4. Under **Authentication > Users**, create your admin login (email + password).
-5. Under **Settings > API**, copy the **Project URL** and **anon public key**.
-6. Paste them into `js/supabase-client.js` → `SUPABASE_CONFIG`.
-7. Reload the site. Rules/Thoughts and the admin panel now read/write
-   directly to Supabase — no other code changes needed.
+## Deploying to Hostinger, step by step
 
-Until step 6 is done, the whole site (including the admin panel) runs on a
-localStorage-based mock store, seeded with sample Rules/Thoughts posts, so
-you can explore everything immediately.
+This assumes Hostinger shared/business hosting (PHP + MySQL). If you're on
+a VPS you can follow the same steps through hPanel or via SSH.
 
-**Demo admin login (mock mode only):** `admin@adalawchamber.com` / `adalaw2024`
-— replace this before going live; it has no effect once Supabase auth is wired up.
+### 1. Create the database
+
+1. Log in to **hPanel** → **Databases** → **MySQL Databases**.
+2. Create a new database (or use the one Hostinger auto-provisions). Note
+   down the **database name**, **username**, and **password** it shows you.
+   The **host** is almost always `localhost` on shared hosting.
+
+### 2. Create the tables
+
+1. Still in hPanel → **Databases**, click **phpMyAdmin** next to your new
+   database.
+2. Click the **SQL** tab.
+3. Open `api/schema.sql` from this project, copy its entire contents,
+   paste into phpMyAdmin's SQL box, and click **Go**.
+4. You should now see four tables: `admins`, `posts`, `contact_messages`,
+   `career_applications`, and two sample rows in `posts`.
+
+### 3. Upload the project files
+
+1. In hPanel → **Files** → **File Manager** (or via FTP/SFTP with a client
+   like FileZilla — Hostinger gives you credentials under
+   **Files → FTP Accounts**).
+2. Upload the **entire contents** of this project folder into
+   `public_html` (or a subfolder, if this site lives at a sub-path).
+   Everything — the HTML pages, `css/`, `js/`, `admin/`, `api/`,
+   `uploads/`, all of it — needs to be on the server together, since the
+   frontend calls the PHP API on the same domain.
+
+### 4. Configure the database connection
+
+1. Edit `api/config.php` (directly in hPanel's File Manager code editor,
+   or edit locally and re-upload) and fill in the four values from Step 1:
+   ```php
+   define('DB_HOST', 'localhost');
+   define('DB_NAME', 'your_actual_db_name');
+   define('DB_USER', 'your_actual_db_user');
+   define('DB_PASS', 'your_actual_db_password');
+   ```
+2. While you're in there, also change `SETUP_SECRET` to your own random
+   string (anything long and hard to guess) — you'll use it once in the
+   next step.
+
+### 5. Set folder permissions for uploads
+
+The `uploads/resumes/` and `uploads/posts/` folders need to be writable by
+PHP so resumes and post images can be saved there.
+
+1. In File Manager, right-click `uploads` → **Permissions** (or
+   **Change Permissions**).
+2. Set it to **755** (and apply to subfolders/files if offered). If PHP
+   still can't write, try **775** — Hostinger's exact PHP user setup can
+   vary slightly by plan.
+
+### 6. Create your admin login
+
+Passwords must be hashed by PHP — you can't just type one into
+phpMyAdmin — so there's a one-time setup script for this:
+
+1. In your browser, visit:
+   ```
+   https://yourdomain.com/api/setup-admin.php?secret=YOUR_SETUP_SECRET&email=admin@adalawchamber.com&password=ChooseAStrongPassword123
+   ```
+   using the `SETUP_SECRET` you set in Step 4, and your own email/password.
+2. You should see `{"ok":true,...}` in the browser. That's your admin
+   login — it works immediately at `/admin/`.
+3. **Delete `api/setup-admin.php` from the server now** (File Manager →
+   right-click → Delete). Leaving it live means anyone who guesses your
+   setup secret could create or reset an admin login — it's only meant to
+   be used once.
+
+### 7. Test everything
+
+- Visit your domain — the site should load exactly as before.
+- Visit `/admin/`, log in with the email/password from Step 6.
+- Add a test Rule or Thought, including uploading a picture from your
+  device — it should appear on `/rules.html` or `/thoughts.html` once
+  published.
+- Submit the Contact form and both Careers forms (try attaching a PDF or
+  DOCX resume) — open phpMyAdmin → your database → `contact_messages` /
+  `career_applications` tables to confirm the submissions (and, for
+  careers applications, the resume file path) landed there.
+
+### Viewing submitted messages & applications
+
+There's no dedicated admin page for these yet — the fastest way to check
+them today is phpMyAdmin (hPanel → Databases → phpMyAdmin →
+`contact_messages` / `career_applications` tables). Resume files
+themselves live under `/uploads/resumes/` and are linked from each
+application row's `resume_path` column. If you'd like an in-admin inbox
+for these instead of using phpMyAdmin, that's a reasonable next addition —
+just ask.
+
+### Security notes
+
+- `uploads/.htaccess` blocks any uploaded file from ever being executed
+  as a script, no matter its name or extension — this matters because
+  the folder accepts files from anyone on the internet (resumes) as well
+  as admins (post images).
+- `api/config.php` is blocked from direct browser access via
+  `api/.htaccess` — it's only ever loaded internally by the other PHP
+  files.
+- Admin passwords are hashed with PHP's `password_hash()` (bcrypt) — never
+  stored or compared in plain text.
+- Delete `api/setup-admin.php` after first use (Step 6) — this is the
+  single most important thing to remember post-deployment.
+
+---
+
+## Editing the header, footer, or disclaimer text
+
+*(If your copy of this project has been refactored to use `js/partials.js`
+for shared header/footer markup, edit that one file instead of each page.
+Otherwise, the header/footer/disclaimer are repeated at the top and bottom
+of every page — edit each one directly.)*
 
 ## Editing content
 
 - **Team bios / logo / colours / experts:** edit directly in `team.html`,
-  `assets/images/logo.svg`, the `:root` tokens in `css/style.css`, and
+  `assets/images/`, the `:root` tokens in `css/style.css`, and
   `js/experts.js`.
-- **Rules & Thoughts posts:** use the admin panel at `/admin/` — no code
-  edits required.
+- **Rules & Thoughts posts:** use the admin panel at `/admin/` — including
+  uploading a cover picture straight from your device — no code edits
+  required.
+- **Floating WhatsApp/Email buttons:** configured at the top of
+  `js/main.js` (`CONTACT.whatsappNumber`, `CONTACT.email`).
 
 ## Notes
 
 - The disclaimer overlay (Bar Council of India compliant) shows once per
   browser tab via `sessionStorage` and blurs the page until "I Agree" is
   clicked.
-- All images are placeholders (Unsplash / Pravatar / Picsum) — swap the
-  `src` attributes with real photography before launch.
+- Resume uploads accept PDF and DOCX only, up to 5MB, validated both by
+  file extension and actual file content (not just the filename) in
+  `api/careers.php`.
+- Post cover-image uploads accept JPG/PNG/WEBP up to 4MB, validated the
+  same way in `api/upload-image.php`.
+

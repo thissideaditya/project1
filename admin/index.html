@@ -14,7 +14,7 @@
 <div class="login-shell">
   <div class="login-card">
     <a href="../index.html" class="brand">
-      <img src="../assets/images/logo.svg" alt="ADA Law Chamber crest">
+      <img src="../assets/images/logo.png" alt="ADA Law Chamber crest">
       <span class="brand-text"><strong>ADA Law Chamber</strong><span>Admin Panel</span></span>
     </a>
 
@@ -33,16 +33,17 @@
     </form>
 
     <div class="config-flag" style="margin-top:1.5rem;">
-      Demo mode credentials (until Supabase is connected):<br>
-      <strong>admin@adalawchamber.com</strong> / <strong>adalaw2024</strong><br>
-      Wire up real auth in <code>/js/supabase-client.js</code> and <code>/admin/schema.sql</code>.
+      No login will work until your database is connected.<br>
+      1) Fill in <code>/api/config.php</code> with your Hostinger DB details.<br>
+      2) Run <code>/api/schema.sql</code> in phpMyAdmin.<br>
+      3) Visit <code>/api/setup-admin.php</code> once to create your login (see README.md), then delete that file.
     </div>
     <p style="text-align:center;margin-top:1.5rem;"><a href="../index.html" style="font-size:.85rem;color:var(--ink-500);">&larr; Back to website</a></p>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="../js/supabase-client.js"></script>
+<script src="../js/api-config.js"></script>
+<script src="../js/hostinger-client.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>
