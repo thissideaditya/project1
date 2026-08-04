@@ -143,13 +143,53 @@ phpMyAdmin — so there's a one-time setup script for this:
 
 ### Viewing submitted messages & applications
 
-There's no dedicated admin page for these yet — the fastest way to check
-them today is phpMyAdmin (hPanel → Databases → phpMyAdmin →
-`contact_messages` / `career_applications` tables). Resume files
-themselves live under `/uploads/resumes/` and are linked from each
-application row's `resume_path` column. If you'd like an in-admin inbox
-for these instead of using phpMyAdmin, that's a reasonable next addition —
-just ask.
+Both now have dedicated admin pages:
+
+- **`/admin/messages.html`** — every Contact Us submission, newest first.
+- **`/admin/applications.html`** — every Internship/Associate application,
+  filterable by type, with a **Download** button per resume. Downloads go
+  through `api/download-resume.php`, which checks you're logged in before
+  serving the file (a plain link into `/uploads/resumes/` would let anyone
+  who guessed the filename download it — this doesn't).
+
+If your database was created before this update, run this one block from
+`api/schema.sql` in phpMyAdmin (everything else in that file already
+exists on your database, so you don't need to re-run the whole thing):
+
+```sql
+CREATE TABLE IF NOT EXISTS important_links (
+  id            INT AUTO_INCREMENT PRIMARY KEY,
+  title         VARCHAR(255) NOT NULL,
+  url           VARCHAR(500) NOT NULL,
+  description   TEXT,
+  display_order INT NOT NULL DEFAULT 0,
+  created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+### Important Links
+
+A new public page, **`important-links.html`**, listed under the Insights
+dropdown (Rules / Thoughts / **Important Links**) and on the `insights.html`
+landing page. Manage it entirely from **`/admin/links.html`** — add a
+title, URL, optional description, and a display order (lower numbers show
+first). No code edits required.
+
+### WhatsApp notifications on form submit
+
+When the Contact form or either Careers form is submitted, the visitor's
+browser opens WhatsApp with the details pre-filled, addressed to
+`WHATSAPP_NOTIFY_NUMBER` in `js/api-config.js` — they just tap send once
+inside WhatsApp. That destination number is **completely independent**
+from whatever the visitor typed into the form's own "Phone" field, and
+independent from the office phone numbers shown in the header/footer — it
+only needs to be any real, WhatsApp-registered number of your choosing.
+
+A fully silent, zero-tap send (message lands on your phone with no action
+from the visitor) isn't possible through a webpage — that requires
+WhatsApp's official Business API (Meta Cloud API, or a paid provider like
+Twilio/Gupshup), which needs business verification and per-message cost.
+This pre-filled-message approach is the practical, free equivalent.
 
 ### Security notes
 
@@ -162,6 +202,8 @@ just ask.
   files.
 - Admin passwords are hashed with PHP's `password_hash()` (bcrypt) — never
   stored or compared in plain text.
+- Resume downloads require an active admin session (`api/download-resume.php`)
+  rather than being plain public links.
 - Delete `api/setup-admin.php` after first use (Step 6) — this is the
   single most important thing to remember post-deployment.
 
@@ -182,8 +224,14 @@ of every page — edit each one directly.)*
 - **Rules & Thoughts posts:** use the admin panel at `/admin/` — including
   uploading a cover picture straight from your device — no code edits
   required.
+- **Important Links:** use `/admin/links.html` — no code edits required.
+- **Contact messages / Careers applications:** view at `/admin/messages.html`
+  and `/admin/applications.html`, including resume downloads.
 - **Floating WhatsApp/Email buttons:** configured at the top of
   `js/main.js` (`CONTACT.whatsappNumber`, `CONTACT.email`).
+- **WhatsApp-on-submit number:** configured in `js/api-config.js`
+  (`WHATSAPP_NOTIFY_NUMBER`) — can be a different number than the floating
+  button above if you want.
 
 ## Notes
 

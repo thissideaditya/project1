@@ -61,6 +61,19 @@ CREATE TABLE IF NOT EXISTS career_applications (
   created_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS important_links (
+  id            INT AUTO_INCREMENT PRIMARY KEY,
+  title         VARCHAR(255) NOT NULL,
+  url           VARCHAR(500) NOT NULL,
+  description   TEXT,
+  display_order INT NOT NULL DEFAULT 0,
+  created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- NOTE: if your database already exists from an earlier deploy, you only
+-- need to run this one CREATE TABLE block above (all the others already
+-- exist) — every statement here uses IF NOT EXISTS so it's safe either way.
+
 -- Sample published posts so Rules/Thoughts aren't empty on first load.
 -- Safe to delete from phpMyAdmin once you've added your own.
 INSERT INTO posts (category, title, slug, excerpt, content, cover_image, status) VALUES

@@ -31,6 +31,7 @@ define('DB_PASS', '@dityaAD7');
 
 define('SETUP_SECRET', 'LoremIpsumissimplydummytextoftheprintingandtypesetting');
 
+
 // Where uploaded files are stored on the server (resumes + post images)
 // and the public URL prefix used to link to them from the site.
 define('UPLOAD_DIR', __DIR__ . '/../uploads');

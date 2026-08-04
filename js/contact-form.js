@@ -53,7 +53,7 @@ var CONTACT_RECEIVING_EMAIL = "contact@adalawchamber.com";
       "Phone: " + (payload.phone || "-") + "\n" +
       "Subject: " + (payload.subject || "-") + "\n" +
       "Message: " + payload.message;
-    var url = "https://wa.me/" + "+918796630295" + "?text=" + encodeURIComponent(text);
+    var url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text);
     window.open(url, "_blank", "noopener");
   }
 

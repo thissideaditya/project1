@@ -107,6 +107,55 @@
       var body = await request("/auth.php?action=check");
       return body.user || null;
     },
+
+    // ---------------------------------------------------------------
+    // Contact messages & Careers applications (admin-only reads)
+    // ---------------------------------------------------------------
+    async fetchMessages() {
+      var body = await request("/messages.php");
+      return body.messages || [];
+    },
+
+    async fetchApplications() {
+      var body = await request("/applications.php");
+      return body.applications || [];
+    },
+
+    /** Direct download URL for a resume (used as an <a href>, not fetched via JS). */
+    resumeDownloadUrl(applicationId) {
+      return BASE + "/download-resume.php?id=" + encodeURIComponent(applicationId);
+    },
+
+    // ---------------------------------------------------------------
+    // Important Links
+    // ---------------------------------------------------------------
+    async fetchLinks() {
+      var body = await request("/links.php");
+      return body.links || [];
+    },
+
+    async createLink(link) {
+      var body = await request("/links.php", {
+        method: "POST",
+        headers: jsonHeaders(),
+        body: JSON.stringify(link),
+      });
+      return body.link;
+    },
+
+    async updateLink(id, updates) {
+      var body = await request("/links.php?id=" + encodeURIComponent(id), {
+        method: "PUT",
+        headers: jsonHeaders(),
+        body: JSON.stringify(updates),
+      });
+      return body.link;
+    },
+
+    async deleteLink(id) {
+      await request("/links.php?id=" + encodeURIComponent(id), { method: "DELETE" });
+      return true;
+    },
   };
 
   global.ADA = global.ADA || {};

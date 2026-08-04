@@ -10,13 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
 </head>
 <body>
 
 <div class="disclaimer-overlay" id="disclaimer-overlay" hidden>
   <div class="disclaimer-card" role="dialog" aria-modal="true" aria-labelledby="disclaimer-title">
-    <img src="assets/images/logo.png" alt="" class="crest" style="width:5rem; height:5rem;">
+    <img src="assets/images/logo.jpeg" alt="" class="crest">
     <h2 id="disclaimer-title">Disclaimer</h2>
     <p>The contents of this website (adalawchamber.com) are for general informational purposes only and do not constitute legal advice. ADA Law Chamber does not solicit work or advertise through this website as per the rules of the Bar Council of India.</p>
     <p>By accessing this website, you confirm that you are doing so voluntarily and on your own accord, that there has been no form of solicitation, advertisement, or inducement by ADA Law Chamber or its members. No attorney-client relationship is established by merely viewing this website or through any online communication. You should consult a qualified advocate for any specific legal advice.</p>
@@ -45,6 +46,7 @@
           <div class="dropdown">
             <a href="rules.html">Rules</a>
             <a href="thoughts.html">Thoughts</a>
+            <a href="important-links.html">Important Links</a>
           </div>
         </li>
         <li><a href="careers.html" class="active">Careers</a></li>
@@ -68,13 +70,17 @@
   <div class="container">
     <div class="grid grid--2" style="margin-bottom:1rem;">
       <div class="card">
-        <span class="num">Internships</span>
-        <h3>Work on live matters</h3>
+        <div class="card-head">
+          <div class="card-icon"><i class="ti ti-school" aria-hidden="true"></i></div>
+          <h3>Work on live matters</h3>
+        </div>
         <p>We offer structured internship opportunities to bright and motivated law students. Interns work directly on live matters and receive meaningful exposure across corporate laws, litigation, and regulatory practice.</p>
       </div>
       <div class="card">
-        <span class="num">Associate Positions</span>
-        <h3>Build a tax & litigation practice</h3>
+        <div class="card-head">
+          <div class="card-icon"><i class="ti ti-briefcase" aria-hidden="true"></i></div>
+          <h3>Build a tax &amp; litigation practice</h3>
+        </div>
         <p>We welcome applications from qualified advocates who wish to join our team. Candidates with strong academic records and a passion for corporate and commercial law practice are encouraged to apply.</p>
       </div>
     </div>
@@ -98,7 +104,7 @@
       <div class="field full"><label for="i-message">Why do you want to intern with us?</label><textarea id="i-message"></textarea></div>
       <div class="field full">
         <label for="i-resume">Resume (PDF or DOCX, optional, max 5MB)</label>
-        <input id="i-resume" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+        <input id="i-resume" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
       </div>
       <div class="full">
         <div class="alert info" id="internship-status" hidden></div>
@@ -157,6 +163,7 @@
       <h4>Insights</h4>
       <a href="rules.html">Rules</a>
       <a href="thoughts.html">Thoughts</a>
+      <a href="important-links.html">Important Links</a>
       <a href="pro-bono.html">Pro Bono</a>
       <a href="admin/index.html">Admin Login</a>
     </div>
