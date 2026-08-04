@@ -46,7 +46,7 @@
     if (fields.message) lines.push("Note: " + fields.message);
     lines.push(hasResume ? "Resume: attached (see admin panel)" : "Resume: not attached");
 
-    var url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
+    var url = "https://wa.me/" + "+918796630295" + "?text=" + encodeURIComponent(lines.join("\n"));
     window.open(url, "_blank", "noopener");
   }
 
