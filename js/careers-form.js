@@ -15,7 +15,7 @@
 
   var BASE = (typeof API_BASE_URL !== "undefined" ? API_BASE_URL : "/api");
 
-  var WHATSAPP_NUMBER = (typeof WHATSAPP_NOTIFY_NUMBER !== "undefined" ? WHATSAPP_NOTIFY_NUMBER : "");
+  var WHATSAPP_NUMBER = "+918796630295";
 
   function setStatus(el, text, isError) {
     el.hidden = false;
@@ -46,7 +46,7 @@
     if (fields.message) lines.push("Note: " + fields.message);
     lines.push(hasResume ? "Resume: attached (see admin panel)" : "Resume: not attached");
 
-    var url = "https://wa.me/" + "+918796630295" + "?text=" + encodeURIComponent(lines.join("\n"));
+    var url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
     window.open(url, "_blank", "noopener");
   }
 
