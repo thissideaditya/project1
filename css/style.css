@@ -313,14 +313,76 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 /* ---------------------------------------------------------------
    STATS / QUOTE / CTA BAND
 --------------------------------------------------------------- */
-/* .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; } */
-.stat-row { display: grid; grid-template-columns: repeat(1, 1fr); gap: 2rem; }
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
 .stat { text-align: center; }
 .stat b { display: block; font-family: var(--font-display); font-size: 2.4rem; color: var(--gold-400); }
 .stat span { font-size: .8rem; color: var(--gold-100); text-transform: uppercase; letter-spacing: .08em; }
 
 .cta-band { background: var(--gold-500); color: var(--green-950); text-align: center; }
 .cta-band h2 { color: var(--green-950); }
+
+/* ---------------------------------------------------------------
+   PULL QUOTE
+--------------------------------------------------------------- */
+.pull-quote {
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  color: var(--green-900);
+  line-height: 1.5;
+  position: relative;
+  padding: 0 1rem;
+}
+.pull-quote::before { content: "\201C"; }
+.pull-quote::after { content: "\201D"; }
+.pull-quote cite {
+  display: block;
+  margin-top: 1rem;
+  font-family: var(--font-caption);
+  font-style: normal;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-700);
+}
+.section--band .pull-quote { color: var(--cream-50); }
+.section--band .pull-quote cite { color: var(--gold-400); }
+
+/* ---------------------------------------------------------------
+   ASSOCIATED FIRM / EST. BADGE CARD
+--------------------------------------------------------------- */
+.firm-card { border-top: 3px solid var(--gold-500); }
+.firm-card .num { color: var(--gold-600); }
+.firm-card h3 { margin-bottom: .3rem; }
+.firm-card ul { margin: .9rem 0 0; }
+.firm-card li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: .9rem;
+  color: var(--ink-700);
+  margin-bottom: .5rem;
+}
+.firm-card li::before {
+  content: "";
+  position: absolute; left: 0; top: .55em;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold-500);
+}
+
+/* ---------------------------------------------------------------
+   MULTIDISCIPLINARY NETWORK DIAGRAM (SVG)
+--------------------------------------------------------------- */
+.diagram-wrap { max-width: 820px; margin: 0 auto; }
+.diagram-wrap svg { width: 100%; height: auto; display: block; }
+.diagram-line { stroke: var(--line); stroke-width: 1.5; }
+.diagram-hub-circle { fill: var(--green-950); }
+.diagram-hub-text { fill: var(--cream-50); font-family: var(--font-display); font-weight: 700; font-size: 22px; text-anchor: middle; }
+.diagram-node-circle { fill: var(--white); stroke: var(--green-800); stroke-width: 1.5; }
+.diagram-node-title { fill: var(--green-950); font-family: var(--font-caption); font-weight: 500; font-size: 15px; letter-spacing: .04em; }
+.diagram-node-sub { fill: var(--ink-500); font-family: var(--font-body); font-size: 13px; }
 
 /* ---------------------------------------------------------------
    FOOTER
@@ -464,6 +526,7 @@ body.disclaimer-active .floating-contact { display: none; }
   .hero .container { grid-template-columns: 1fr; }
   .hero-figure { max-width: 420px; }
   .grid--3, .team-grid, .post-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
   .footer-top { grid-template-columns: 1fr 1fr; }
   .bio-block { grid-template-columns: 200px 1fr; gap: 1.75rem; }
 }
@@ -484,7 +547,7 @@ body.disclaimer-active .floating-contact { display: none; }
   .has-dropdown.open .dropdown { display: block; }
   .nav-toggle { display: flex; }
   .topbar .container { justify-content: center; text-align: center; }
-  .grid--3, .grid--4, .team-grid, .post-grid, .grid--2 { grid-template-columns: 1fr; }
+  .grid--3, .grid--4, .team-grid, .post-grid, .grid--2, .stat-row { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
   .bio-block { grid-template-columns: 1fr; }
   .bio-block img { max-width: 220px; }
