@@ -75,16 +75,8 @@
         <div class="field full">
           <label for="content">Full Content</label>
           <div class="rte-toolbar" id="content-toolbar">
-            <button type="button" class="rte-btn" data-cmd="bold" title="Bold"><strong>B</strong></button>
-            <button type="button" class="rte-btn" data-cmd="italic" title="Italic"><em>I</em></button>
-            <span class="rte-sep"></span>
-            <button type="button" class="rte-btn" data-block="H1" title="Heading 1">H1</button>
-            <button type="button" class="rte-btn" data-block="H2" title="Heading 2">H2</button>
-            <button type="button" class="rte-btn" data-block="H3" title="Heading 3">H3</button>
-            <button type="button" class="rte-btn" data-block="P" title="Paragraph">&para;</button>
-            <span class="rte-sep"></span>
-            <select class="rte-size" id="content-font-family" title="Font">
-              <option value="">Font&hellip;</option>
+            <select class="rte-select rte-select--font" id="content-font-family" title="Font">
+              <option value="">Font</option>
               <option value="Georgia, 'Times New Roman', serif" style="font-family:Georgia, 'Times New Roman', serif;">Georgia</option>
               <option value="'Times New Roman', Times, serif" style="font-family:'Times New Roman', Times, serif;">Times New Roman</option>
               <option value="'Playfair Display', Georgia, serif" style="font-family:'Playfair Display', Georgia, serif;">Playfair Display</option>
@@ -101,18 +93,31 @@
               <option value="Inter, Arial, sans-serif" style="font-family:Inter, Arial, sans-serif;">Inter</option>
               <option value="'IBM Plex Sans', Arial, sans-serif" style="font-family:'IBM Plex Sans', Arial, sans-serif;">IBM Plex Sans</option>
             </select>
-            <span class="rte-sep"></span>
-            <select class="rte-size" id="content-font-size" title="Font size">
-              <option value="">Font size&hellip;</option>
-              <option value="13px">Small</option>
-              <option value="16px">Normal</option>
-              <option value="20px">Large</option>
-              <option value="26px">X-Large</option>
-              <option value="32px">Huge</option>
+            <select class="rte-select rte-select--size" id="content-font-size" title="Font size">
+              <option value="">Size</option>
+              <option value="12px">12</option>
+              <option value="13px">13</option>
+              <option value="14px">14</option>
+              <option value="16px">16</option>
+              <option value="18px">18</option>
+              <option value="20px">20</option>
+              <option value="24px">24</option>
+              <option value="28px">28</option>
+              <option value="32px">32</option>
+              <option value="36px">36</option>
+              <option value="48px">48</option>
             </select>
+            <span class="rte-sep"></span>
+            <button type="button" class="rte-btn" data-cmd="bold" title="Bold"><strong>B</strong></button>
+            <button type="button" class="rte-btn" data-cmd="italic" title="Italic"><em>I</em></button>
+            <span class="rte-sep"></span>
+            <button type="button" class="rte-btn rte-btn--wide" data-block="H1" title="Heading 1">H1</button>
+            <button type="button" class="rte-btn rte-btn--wide" data-block="H2" title="Heading 2">H2</button>
+            <button type="button" class="rte-btn rte-btn--wide" data-block="H3" title="Heading 3">H3</button>
+            <button type="button" class="rte-btn" data-block="P" title="Paragraph (remove heading)">&para;</button>
           </div>
           <div id="content" class="rte-editor" contenteditable="true" data-placeholder="Start writing… select text, then use the toolbar above to format it."></div>
-          <p class="form-note">Select some text first, then click Bold/Italic/a heading/a font size to apply it — just like a word processor.</p>
+          <p class="form-note">Select some text first, then use the toolbar above — font, size, bold, italic, or a heading — just like a word processor.</p>
         </div>
       </div>
       <div style="margin-top:1.5rem;display:flex;gap:1rem;">
