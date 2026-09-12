@@ -7,6 +7,7 @@
 <link rel="icon" href="../assets/images/logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lora:wght@400;600;700&family=PT+Serif:wght@400;700&family=Libre+Baskerville:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Playfair+Display:wght@400;600;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -73,7 +74,45 @@
         </div>
         <div class="field full">
           <label for="content">Full Content</label>
-          <textarea id="content" style="min-height:280px;" required placeholder="Separate paragraphs with a blank line."></textarea>
+          <div class="rte-toolbar" id="content-toolbar">
+            <button type="button" class="rte-btn" data-cmd="bold" title="Bold"><strong>B</strong></button>
+            <button type="button" class="rte-btn" data-cmd="italic" title="Italic"><em>I</em></button>
+            <span class="rte-sep"></span>
+            <button type="button" class="rte-btn" data-block="H1" title="Heading 1">H1</button>
+            <button type="button" class="rte-btn" data-block="H2" title="Heading 2">H2</button>
+            <button type="button" class="rte-btn" data-block="H3" title="Heading 3">H3</button>
+            <button type="button" class="rte-btn" data-block="P" title="Paragraph">&para;</button>
+            <span class="rte-sep"></span>
+            <select class="rte-size" id="content-font-family" title="Font">
+              <option value="">Font&hellip;</option>
+              <option value="Georgia, 'Times New Roman', serif" style="font-family:Georgia, 'Times New Roman', serif;">Georgia</option>
+              <option value="'Times New Roman', Times, serif" style="font-family:'Times New Roman', Times, serif;">Times New Roman</option>
+              <option value="'Playfair Display', Georgia, serif" style="font-family:'Playfair Display', Georgia, serif;">Playfair Display</option>
+              <option value="Merriweather, Georgia, serif" style="font-family:Merriweather, Georgia, serif;">Merriweather</option>
+              <option value="Lora, Georgia, serif" style="font-family:Lora, Georgia, serif;">Lora</option>
+              <option value="'PT Serif', Georgia, serif" style="font-family:'PT Serif', Georgia, serif;">PT Serif</option>
+              <option value="'Libre Baskerville', Georgia, serif" style="font-family:'Libre Baskerville', Georgia, serif;">Libre Baskerville</option>
+              <option value="'Source Serif 4', Georgia, serif" style="font-family:'Source Serif 4', Georgia, serif;">Source Serif</option>
+              <option value="Arial, Helvetica, sans-serif" style="font-family:Arial, Helvetica, sans-serif;">Arial</option>
+              <option value="Helvetica, Arial, sans-serif" style="font-family:Helvetica, Arial, sans-serif;">Helvetica</option>
+              <option value="Roboto, Arial, sans-serif" style="font-family:Roboto, Arial, sans-serif;">Roboto</option>
+              <option value="'Open Sans', Arial, sans-serif" style="font-family:'Open Sans', Arial, sans-serif;">Open Sans</option>
+              <option value="Lato, Arial, sans-serif" style="font-family:Lato, Arial, sans-serif;">Lato</option>
+              <option value="Inter, Arial, sans-serif" style="font-family:Inter, Arial, sans-serif;">Inter</option>
+              <option value="'IBM Plex Sans', Arial, sans-serif" style="font-family:'IBM Plex Sans', Arial, sans-serif;">IBM Plex Sans</option>
+            </select>
+            <span class="rte-sep"></span>
+            <select class="rte-size" id="content-font-size" title="Font size">
+              <option value="">Font size&hellip;</option>
+              <option value="13px">Small</option>
+              <option value="16px">Normal</option>
+              <option value="20px">Large</option>
+              <option value="26px">X-Large</option>
+              <option value="32px">Huge</option>
+            </select>
+          </div>
+          <div id="content" class="rte-editor" contenteditable="true" data-placeholder="Start writing… select text, then use the toolbar above to format it."></div>
+          <p class="form-note">Select some text first, then click Bold/Italic/a heading/a font size to apply it — just like a word processor.</p>
         </div>
       </div>
       <div style="margin-top:1.5rem;display:flex;gap:1rem;">

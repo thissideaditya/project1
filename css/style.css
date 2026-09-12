@@ -414,6 +414,41 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .form-note { font-size: .78rem; color: var(--ink-500); margin-top: .5rem; }
 
 /* ---------------------------------------------------------------
+   RICH TEXT EDITOR (admin — Rules & Thoughts content field)
+--------------------------------------------------------------- */
+.rte-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .35rem;
+  padding: .5rem; margin-bottom: -1px;
+  background: var(--cream-100);
+  border: 1px solid var(--line); border-bottom: none;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+.rte-btn {
+  min-width: 34px; height: 32px; padding: 0 .5em;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid transparent; border-radius: var(--radius-sm);
+  background: transparent; color: var(--ink-900); font-size: .85rem;
+}
+.rte-btn:hover { background: var(--white); border-color: var(--line); }
+.rte-btn.active { background: var(--gold-500); border-color: var(--gold-500); color: var(--green-950); }
+.rte-sep { width: 1px; align-self: stretch; background: var(--line); margin: 0 .25rem; }
+.rte-size {
+  height: 32px; padding: 0 .5em; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--white); font-size: .82rem; max-width: 150px;
+}
+.rte-editor {
+  width: 100%; min-height: 280px; padding: .9em 1em;
+  border: 1px solid var(--line); border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  background: var(--white); font-size: .92rem; line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.rte-editor:focus { outline: none; border-color: var(--gold-500); }
+.rte-editor:empty::before { content: attr(data-placeholder); color: var(--ink-500); }
+.rte-editor h1, .rte-editor h2, .rte-editor h3 { margin-top: 0; }
+.rte-editor p { margin: 0 0 1em; }
+.rte-editor p:last-child { margin-bottom: 0; }
+
+/* ---------------------------------------------------------------
    ARTICLE / RULES / THOUGHTS LISTINGS
 --------------------------------------------------------------- */
 .post-grid { grid-template-columns: repeat(3, 1fr); }
@@ -429,7 +464,10 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 
 .article-header { max-width: 760px; margin: 0 auto 2.5rem; text-align: center; }
 .article-body { max-width: 760px; margin: 0 auto; font-size: 1.02rem; color: var(--ink-700); }
+.article-body h1 { color: var(--green-950); font-size: 1.7rem; margin-top: 1.4em; }
 .article-body h2 { color: var(--green-950); margin-top: 1.6em; }
+.article-body h3 { color: var(--green-950); font-size: 1.15rem; margin-top: 1.4em; }
+.article-body strong { color: var(--ink-900); }
 .article-body p { margin-bottom: 1.3em; }
 
 /* ---------------------------------------------------------------
