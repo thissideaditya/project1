@@ -310,6 +310,14 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .bio-block h3 { margin-bottom: .1rem; }
 .bio-block .role { font-family: var(--font-caption); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-700); display: block; margin-bottom: 1rem; }
 .bio-block p { color: var(--ink-700); font-size: .95rem; }
+.bio-photo { display: flex; flex-direction: column; gap: .9rem; }
+.role-badges { display: flex; flex-wrap: wrap; gap: .5rem; }
+.role-badge {
+  font-family: var(--font-caption); font-size: .68rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: var(--green-800); border: 1px solid var(--green-700);
+  padding: .35em 1em; border-radius: 999px; background: var(--white);
+}
 .bio-highlights { list-style: none; margin: 1.1rem 0 0; padding: 0; }
 .bio-highlights li {
   position: relative; padding-left: 1.2rem;
