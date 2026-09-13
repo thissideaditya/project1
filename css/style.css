@@ -3,7 +3,7 @@
    Design tokens live at the top so the palette/type/spacing can be
    retuned in one place without touching structural rules below.
 =================================================================== */
- 
+
 :root {
   /* ---- Brand palette (from logo: deep green + gold) ---- */
   --green-950: #0b2118;
@@ -23,12 +23,12 @@
   --ink-500: #6b6858;
   --line: #ded4b4;
   --white: #ffffff;
- 
+
   /* ---- Type ---- */
   --font-display: "Playfair Display", "Georgia", serif;
   --font-body: "Libertinus Serif", "Helvetica Neue", Arial, sans-serif;
   --font-caption: "IBM Plex Mono", monospace;
- 
+
   /* ---- Layout ---- */
   --maxw: 1200px;
   --gutter: clamp(1.25rem, 4vw, 3rem);
@@ -37,8 +37,8 @@
   --shadow-card: 0 12px 30px -14px rgba(11, 33, 24, 0.35);
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
- 
- 
+
+
 /* ---------------------------------------------------------------
 RESET
 --------------------------------------------------------------- */
@@ -61,14 +61,14 @@ p { margin: 0 0 1em; }
 button { font-family: inherit; cursor: pointer; }
 input, textarea, select { font-family: inherit; }
 :focus-visible { outline: 3px solid var(--gold-500); outline-offset: 2px; }
- 
+
 .container { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .section { padding: clamp(3.5rem, 8vw, 6.5rem) 0; }
 .section--tight { padding: clamp(2.5rem, 5vw, 4rem) 0; }
 .section--band { background: var(--green-950); color: var(--cream-100); }
 .section--band h2, .section--band h3 { color: var(--cream-50); }
 .section--tint { background: var(--cream-100); }
- 
+
 .eyebrow {
   font-family: var(--font-caption);
   text-transform: uppercase;
@@ -82,12 +82,12 @@ input, textarea, select { font-family: inherit; }
 }
 .section--band .eyebrow { color: var(--gold-400); }
 .eyebrow::before { content: ""; width: 22px; height: 1px; background: currentColor; display: inline-block; }
- 
+
 .section-head { max-width: 640px; margin-bottom: 2.75rem; }
 .section-head--center { margin-left: auto; margin-right: auto; text-align: center; }
 h2.section-title { font-size: clamp(1.9rem, 3.4vw, 2.6rem); }
 .lede { font-size: 1.08rem; color: var(--ink-700); }
- 
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -108,7 +108,7 @@ h2.section-title { font-size: clamp(1.9rem, 3.4vw, 2.6rem); }
 .btn--sm { padding: .6em 1.2em; font-size: .82rem; }
 .btn--full { width: 100%; justify-content: center; }
 .btn--danger { background: #7a2323; color: #fff; }
- 
+
 /* ---------------------------------------------------------------
 DISCLAIMER OVERLAY
 --------------------------------------------------------------- */
@@ -123,7 +123,7 @@ DISCLAIMER OVERLAY
 .disclaimer-overlay[hidden] { display: none; }
 body.disclaimer-active { overflow: hidden; }
 body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
- 
+
 .disclaimer-card {
   max-width: 620px;
   width: 100%;
@@ -139,7 +139,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .disclaimer-card h2 { font-size: 1.4rem; margin-bottom: .75rem; }
 .disclaimer-card p { font-size: .93rem; color: var(--ink-700); }
 .disclaimer-actions { margin-top: 1.5rem; text-align: right; }
- 
+
 /* ---------------------------------------------------------------
    HEADER / NAV
 --------------------------------------------------------------- */
@@ -155,7 +155,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 }
 .topbar a { display: inline-flex; align-items: center; gap: .4em; }
 .topbar a:hover { color: var(--gold-400); }
- 
+
 .site-header {
   position: sticky; top: 0; z-index: 500;
   background: var(--cream-50);
@@ -171,7 +171,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .brand-text { line-height: 1.1; }
 .brand-text strong { display: block; font-family: var(--font-display); font-size: 1.05rem; color: var(--green-950); }
 .brand-text span { display: block; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-700); }
- 
+
 .main-nav ul { display: flex; align-items: center; gap: 1.5rem; }
 .main-nav a {
   font-size: 1rem; font-weight:bold; color: var(--ink-700);
@@ -184,7 +184,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 }
 .main-nav a:hover::after, .main-nav a.active::after { transform: scaleX(1); }
 .main-nav a.active { color: var(--green-950); }
- 
+
 .has-dropdown { position: relative; }
 .dropdown {
   position: absolute; top: 100%; left: 0; min-width: 190px;
@@ -199,13 +199,13 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .dropdown a { display: block; padding: .55rem .75rem; border-radius: var(--radius-sm); font-size: .84rem; }
 .dropdown a:hover { background: var(--cream-100); }
 .dropdown a::after { display: none; }
- 
+
 .nav-toggle {
   display: none; background: none; border: none; padding: .4rem;
   flex-direction: column; gap: 5px;
 }
 .nav-toggle span { width: 24px; height: 2px; background: var(--green-950); display: block; }
- 
+
 /* ---------------------------------------------------------------
    HERO
 --------------------------------------------------------------- */
@@ -240,7 +240,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
   font-family: var(--font-caption); font-size: .7rem; letter-spacing: .1em;
   background: rgba(11,33,24,.7); color: var(--gold-400); padding: .5em .8em; border-radius: 3px;
 }
- 
+
 /* ---------------------------------------------------------------
    CARDS / GRIDS
 --------------------------------------------------------------- */
@@ -248,7 +248,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .grid--3 { grid-template-columns: repeat(3, 1fr); }
 .grid--2 { grid-template-columns: repeat(2, 1fr); }
 .grid--4 { grid-template-columns: repeat(4, 1fr); }
- 
+
 .card {
   background: var(--white); border: 1px solid var(--line); border-left: 3px solid var(--gold-500);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
@@ -258,7 +258,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .card .num { font-family: var(--font-caption); color: var(--gold-600); font-size: .78rem; display: block; margin-bottom: .8rem; }
 .card h3 { font-size: 1.08rem; margin-bottom: .5rem; }
 .card p { color: var(--ink-700); font-size: .92rem; margin-bottom: 0; }
- 
+
 /* Optional icon medallion for cards — pair with .card-head to sit icon + title side by side */
 .card-head { display: flex; align-items: center; gap: .9rem; margin-bottom: .7rem; }
 .card-icon {
@@ -267,7 +267,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 }
 .card-icon i { font-size: 20px; color: var(--gold-700); }
 .card-head h3 { margin-bottom: 0; }
- 
+
 /* Featured / highlighted card — a bolder dark band, e.g. a firm's core expertise */
 .card--featured {
   background: var(--green-950); border: none; border-radius: var(--radius-md);
@@ -281,7 +281,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
   background: var(--gold-500); color: var(--green-950); font-size: .72rem; font-weight: 700;
   padding: .25em .75em; border-radius: 20px; margin-left: .6rem; white-space: nowrap;
 }
- 
+
 .practice-list { border-top: 1px solid var(--line); }
 .practice-row {
   display: flex; justify-content: space-between; align-items: center; gap: 1rem;
@@ -292,7 +292,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
   color: var(--gold-700); background: var(--gold-100); padding: .35em .7em; border-radius: 3px; white-space: nowrap;
 }
 .practice-row h3 { margin: 0; font-size: 1.1rem; }
- 
+
 /* ---------------------------------------------------------------
    TEAM
 --------------------------------------------------------------- */
@@ -304,13 +304,24 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .team-info { padding: 1.1rem 1.3rem 1.4rem; }
 .team-info h3 { font-size: 1rem; margin-bottom: .15rem; }
 .team-info .role { font-family: var(--font-caption); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-700); }
- 
+
 .bio-block { display: grid; grid-template-columns: 260px 1fr; gap: 2.5rem; align-items: start; padding: 2.5rem 0; border-bottom: 1px solid var(--line); }
 .bio-block img { border-radius: var(--radius-md); aspect-ratio: 4/5; object-fit: cover; }
 .bio-block h3 { margin-bottom: .1rem; }
 .bio-block .role { font-family: var(--font-caption); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-700); display: block; margin-bottom: 1rem; }
 .bio-block p { color: var(--ink-700); font-size: .95rem; }
- 
+.bio-highlights { list-style: none; margin: 1.1rem 0 0; padding: 0; }
+.bio-highlights li {
+  position: relative; padding-left: 1.2rem;
+  font-size: .92rem; color: var(--ink-700); margin-bottom: .55rem;
+}
+.bio-highlights li:last-child { margin-bottom: 0; }
+.bio-highlights li::before {
+  content: ""; position: absolute; left: 0; top: .55em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--gold-500);
+}
+.bio-highlights strong { color: var(--ink-900); }
+
 /* ---------------------------------------------------------------
    STATS / QUOTE / CTA BAND
 --------------------------------------------------------------- */
@@ -318,10 +329,10 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .stat { text-align: center; }
 .stat b { display: block; font-family: var(--font-display); font-size: 2.4rem; color: var(--gold-400); }
 .stat span { font-size: .8rem; color: var(--gold-100); text-transform: uppercase; letter-spacing: .08em; }
- 
+
 .cta-band { background: var(--gold-500); color: var(--green-950); text-align: center; }
 .cta-band h2 { color: var(--green-950); }
- 
+
 /* ---------------------------------------------------------------
    PULL QUOTE
 --------------------------------------------------------------- */
@@ -351,7 +362,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 }
 .section--band .pull-quote { color: var(--cream-50); }
 .section--band .pull-quote cite { color: var(--gold-400); }
- 
+
 /* ---------------------------------------------------------------
    ASSOCIATED FIRM / EST. BADGE CARD
 --------------------------------------------------------------- */
@@ -372,7 +383,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
   width: 6px; height: 6px; border-radius: 50%;
   background: var(--gold-500);
 }
- 
+
 /* ---------------------------------------------------------------
    MULTIDISCIPLINARY NETWORK DIAGRAM (SVG)
 --------------------------------------------------------------- */
@@ -382,9 +393,14 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .diagram-hub-circle { fill: var(--green-950); }
 .diagram-hub-text { fill: var(--cream-50); font-family: var(--font-display); font-weight: 700; font-size: 22px; text-anchor: middle; }
 .diagram-node-circle { fill: var(--white); stroke: var(--green-800); stroke-width: 1.5; }
+/* Practice-area icons in the network diagram. Change WHICH icon shows
+   by editing the file path in about.html's <image href="assets/images/icons/...">
+   tags. Change how ALL of them look (size, spacing, effects) by editing
+   only this one rule. */
+.diagram-node-icon-img { width: 44px; height: 44px; }
 .diagram-node-title { fill: var(--green-950); font-family: var(--font-caption); font-weight: 500; font-size: 15px; letter-spacing: .04em; }
 .diagram-node-sub { fill: var(--ink-500); font-family: var(--font-body); font-size: 13px; }
- 
+
 /* ---------------------------------------------------------------
    FOOTER
 --------------------------------------------------------------- */
@@ -399,7 +415,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: .75rem;
   font-size: .78rem; color: rgba(244,233,201,.6);
 }
- 
+
 /* ---------------------------------------------------------------
    FORMS (contact / careers / admin)
 --------------------------------------------------------------- */
@@ -413,7 +429,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .field textarea { resize: vertical; min-height: 120px; }
 .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--gold-500); }
 .form-note { font-size: .78rem; color: var(--ink-500); margin-top: .5rem; }
- 
+
 /* ---------------------------------------------------------------
    RICH TEXT EDITOR (admin — Rules & Thoughts content field)
 --------------------------------------------------------------- */
@@ -443,7 +459,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
   background: var(--white); font-size: .82rem; color: var(--ink-900);
 }
 .rte-toolbar select.rte-select--size { width: 62px; min-width: 62px; }
- 
+
 /* Custom font-family picker — a native <select>'s dropdown popup
    ignores per-option font-family styling on several browsers/OSes
    (notably macOS), so this renders its own list where every option
@@ -480,7 +496,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .rte-editor h1, .rte-editor h2, .rte-editor h3 { margin-top: 0; }
 .rte-editor p { margin: 0 0 1em; }
 .rte-editor p:last-child { margin-bottom: 0; }
- 
+
 /* ---------------------------------------------------------------
    ARTICLE / RULES / THOUGHTS LISTINGS
 --------------------------------------------------------------- */
@@ -494,7 +510,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .post-card p { color: var(--ink-700); font-size: .89rem; margin-bottom: 1rem; }
 .post-card .read-more { margin-top: auto; font-size: .82rem; font-weight: 700; color: var(--green-800); }
 .empty-state { text-align: center; padding: 3rem 1rem; color: var(--ink-500); border: 1px dashed var(--line); border-radius: var(--radius-md); }
- 
+
 .article-header { max-width: 760px; margin: 0 auto 2.5rem; text-align: center; }
 .article-body { max-width: 760px; margin: 0 auto; font-size: 1.02rem; color: var(--ink-700); }
 .article-body h1 { color: var(--green-950); font-size: 1.7rem; margin-top: 1.4em; }
@@ -502,7 +518,7 @@ body.disclaimer-active > *:not(.disclaimer-overlay) { filter: blur(6px); }
 .article-body h3 { color: var(--green-950); font-size: 1.15rem; margin-top: 1.4em; }
 .article-body strong { color: var(--ink-900); }
 .article-body p { margin-bottom: 1.3em; }
- 
+
 /* ---------------------------------------------------------------
    ADMIN PANEL
 --------------------------------------------------------------- */
@@ -534,7 +550,7 @@ table.admin-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
 .config-flag { font-family: var(--font-caption); font-size: .72rem; color: var(--ink-500); background: var(--cream-100); border: 1px dashed var(--line); padding: .8rem 1rem; border-radius: var(--radius-sm); }
 [data-filter].active { background: var(--green-950); color: var(--cream-50); border-color: var(--green-950); }
 a.card { display: block; cursor: pointer; }
- 
+
 /* ---------------------------------------------------------------
    FLOATING CONTACT BUTTONS (WhatsApp + Email)
    Injected by js/main.js on every page — see initFloatingContact().
@@ -559,7 +575,7 @@ a.card { display: block; cursor: pointer; }
 .floating-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 30px -8px rgba(11, 33, 24, .55); }
 .floating-btn--whatsapp { background: #25d366; color: #fff; }
 .floating-btn--email { background: var(--gold-500); color: var(--green-950); }
- 
+
 /* Tooltip label on hover (desktop only, keeps mobile tap targets clean) */
 .floating-btn { position: relative; }
 .floating-btn::after {
@@ -576,10 +592,10 @@ a.card { display: block; cursor: pointer; }
   .floating-btn::after { display: none; } /* no hover on touch devices */
   .floating-btn { width: 50px; height: 50px; }
 }
- 
+
 /* Hide while the disclaimer gate is up so it isn't tappable under the blur */
 body.disclaimer-active .floating-contact { display: none; }
- 
+
 /* ---------------------------------------------------------------
    MISC UTILITIES
 --------------------------------------------------------------- */
@@ -589,7 +605,7 @@ body.disclaimer-active .floating-contact { display: none; }
 .badge-row span { font-family: var(--font-caption); font-size: .7rem; border: 1px solid var(--line); padding: .4em .8em; border-radius: 20px; color: var(--ink-500); }
 .divider-gold { height: 3px; width: 60px; background: var(--gold-500); margin: 0 0 1.5rem; }
 .section-head--center .divider-gold { margin-left: auto; margin-right: auto; }
- 
+
 /* ---------------------------------------------------------------
    RESPONSIVE
 --------------------------------------------------------------- */
@@ -601,7 +617,7 @@ body.disclaimer-active .floating-contact { display: none; }
   .footer-top { grid-template-columns: 1fr 1fr; }
   .bio-block { grid-template-columns: 200px 1fr; gap: 1.75rem; }
 }
- 
+
 @media (max-width: 760px) {
   .main-nav { position: fixed; top: 0; right: 0; bottom: 0; width: min(320px, 82vw);
     background: var(--cream-50); box-shadow: -12px 0 40px -18px rgba(0,0,0,.4);
@@ -631,11 +647,11 @@ body.disclaimer-active .floating-contact { display: none; }
   .card-head { flex-wrap: wrap; }
   .card--featured .badge-gold { margin-left: 0; margin-top: .4rem; display: inline-block; }
 }
- 
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
 }
- 
+
 .map-embed {
   position: relative;
   width: 100%;
