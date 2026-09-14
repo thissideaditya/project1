@@ -8,13 +8,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lora:wght@400;600;700&family=PT+Serif:wght@400;700&family=Libre+Baskerville:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Playfair+Display:wght@400;600;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css?v=3">
 </head>
 <body>
- 
+
 <div class="admin-shell">
   <aside class="admin-sidebar">
-    <a href="dashboard.html" class="brand">
+    <a href="../index.html" class="brand">
       <img src="../assets/images/logo.png" alt="ADA Law Chamber crest">
       <span class="brand-text"><strong>ADA Law Chambers</strong><span>Admin Panel</span></span>
     </a>
@@ -31,13 +31,13 @@
       <button class="btn btn--outline btn--sm btn--full" data-logout>Sign Out</button>
     </div>
   </aside>
- 
+
   <main class="admin-main">
     <div class="admin-topline">
       <h1 id="editor-heading" style="margin:0;font-size:1.6rem;">New Post</h1>
       <a href="dashboard.html" class="btn btn--sm btn--outline-dark">&larr; Back to list</a>
     </div>
- 
+
     <form class="admin-card" id="post-form">
       <div class="form-grid">
         <div class="field full">
@@ -122,6 +122,7 @@
             <button type="button" class="rte-btn" data-block="P" title="Paragraph (remove heading)">&para;</button>
           </div>
           <div id="content" class="rte-editor" contenteditable="true" data-placeholder="Start writing… select text, then use the toolbar above to format it."></div>
+          <p class="form-note">Select some text first, then use the toolbar above — font, size, bold, italic, or a heading — just like a word processor.</p>
         </div>
       </div>
       <div style="margin-top:1.5rem;display:flex;gap:1rem;">
@@ -131,10 +132,9 @@
     </form>
   </main>
 </div>
- 
+
 <script src="../js/api-config.js"></script>
 <script src="../js/hostinger-client.js"></script>
-<script src="admin.js"></script>
+<script src="admin.js?v=4"></script>
 </body>
 </html>
- 

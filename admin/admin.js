@@ -6,32 +6,32 @@
 =================================================================== */
 (function () {
   "use strict";
- 
+
   function escapeHtml(str) {
     var div = document.createElement("div");
     div.textContent = str || "";
     return div.innerHTML;
   }
- 
+
   /* -------------------------------------------------------------
      LOGIN PAGE (admin/index.html)
   ------------------------------------------------------------- */
   function initLoginPage() {
     var form = document.getElementById("login-form");
     if (!form) return;
- 
+
     // If already signed in, skip straight to dashboard.
     window.ADA.data.getSession().then(function (session) {
       if (session) window.location.href = "dashboard.html";
     });
- 
+
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
       var email = document.getElementById("email").value.trim();
       var password = document.getElementById("password").value;
       var errorBox = document.getElementById("login-error");
       errorBox.hidden = true;
- 
+
       try {
         await window.ADA.data.signIn(email, password);
         window.location.href = "dashboard.html";
@@ -41,7 +41,7 @@
       }
     });
   }
- 
+
   /* -------------------------------------------------------------
      ROUTE GUARD — used by dashboard.html and editor.html
   ------------------------------------------------------------- */
@@ -55,7 +55,7 @@
     if (who) who.textContent = session.email || "Admin";
     return session;
   }
- 
+
   function initLogout() {
     document.querySelectorAll("[data-logout]").forEach(function (btn) {
       btn.addEventListener("click", async function () {
@@ -64,18 +64,18 @@
       });
     });
   }
- 
+
   /* -------------------------------------------------------------
      DASHBOARD (admin/dashboard.html) — list, filter, delete
   ------------------------------------------------------------- */
   function initDashboard() {
     var table = document.getElementById("posts-table-body");
     if (!table) return;
- 
+
     requireAuth().then(function (session) {
       if (session) loadPosts();
     });
- 
+
     var filterTabs = document.querySelectorAll("[data-filter]");
     var activeFilter = "";
     filterTabs.forEach(function (tab) {
@@ -86,7 +86,7 @@
         loadPosts();
       });
     });
- 
+
     async function loadPosts() {
       table.innerHTML = '<tr><td colspan="5">Loading…</td></tr>';
       try {
@@ -111,7 +111,7 @@
             );
           })
           .join("");
- 
+
         table.querySelectorAll("[data-delete]").forEach(function (btn) {
           btn.addEventListener("click", async function () {
             if (!confirm("Delete this post permanently?")) return;
@@ -125,7 +125,7 @@
       }
     }
   }
- 
+
   /* -------------------------------------------------------------
      RICH TEXT EDITOR TOOLBAR — wires the Bold/Italic/H1-H3/font-size
      controls in editor.html to the #content contenteditable div via
@@ -136,34 +136,65 @@
     var toolbar = document.getElementById("content-toolbar");
     var editor = document.getElementById("content");
     if (!toolbar || !editor) return;
- 
-    // Keep the toolbar usable even after the user clicks into a
-    // <select>, etc. — mousedown+preventDefault stops the editor
-    // from losing its text selection before the command runs.
+
+    if (!document.queryCommandSupported || !document.execCommand) {
+      console.error("[editor] document.execCommand isn't available in this browser — the formatting toolbar can't work here.");
+      return;
+    }
+
+    // Continuously track the user's text selection while it's inside
+    // the editor. Clicking a toolbar button can otherwise collapse
+    // or lose the browser's live selection before execCommand runs
+    // (this is inconsistent across browsers) — so instead of hoping
+    // the selection survives the click, we explicitly snapshot it
+    // here and re-apply it right before every command below.
+    var savedRange = null;
+
+    function saveSelectionIfInEditor() {
+      var sel = window.getSelection();
+      if (sel && sel.rangeCount > 0 && editor.contains(sel.anchorNode)) {
+        savedRange = sel.getRangeAt(0).cloneRange();
+      }
+    }
+
+    function restoreSelection() {
+      editor.focus();
+      if (!savedRange) return;
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(savedRange);
+    }
+
+    document.addEventListener("selectionchange", saveSelectionIfInEditor);
+
+    // Belt-and-suspenders: also stop these elements from stealing
+    // focus/selection on the way down, where the browser supports it.
     toolbar.addEventListener("mousedown", function (e) {
-      if (e.target.closest(".rte-btn")) e.preventDefault();
+      if (e.target.closest(".rte-btn") || e.target.tagName === "SELECT") e.preventDefault();
     });
- 
+
     toolbar.addEventListener("click", function (e) {
       var btn = e.target.closest(".rte-btn");
       if (!btn) return;
-      editor.focus();
- 
+      restoreSelection();
+
       if (btn.dataset.cmd) {
         document.execCommand(btn.dataset.cmd, false, null);
       } else if (btn.dataset.block) {
         document.execCommand("formatBlock", false, btn.dataset.block === "P" ? "P" : btn.dataset.block);
       }
+      saveSelectionIfInEditor();
       syncToolbarState();
     });
- 
+
     var sizeSelect = document.getElementById("content-font-size");
     if (sizeSelect) {
+      sizeSelect.addEventListener("mousedown", function (e) { e.stopPropagation(); });
       sizeSelect.addEventListener("change", function () {
         var size = sizeSelect.value;
         sizeSelect.value = "";
         if (!size) return;
-        editor.focus();
+        restoreSelection();
         // execCommand only supports the legacy 1-7 <font size> scale,
         // so apply a placeholder size (7) then swap the resulting
         // <font> tags for a <span style="font-size:..."> instead.
@@ -174,20 +205,22 @@
           span.innerHTML = el.innerHTML;
           el.replaceWith(span);
         });
+        saveSelectionIfInEditor();
       });
     }
- 
+
     var fontPicker = document.getElementById("content-font-picker");
     if (fontPicker) {
       var fontTrigger = document.getElementById("content-font-trigger");
       var fontTriggerLabel = document.getElementById("content-font-trigger-label");
       var fontMenu = document.getElementById("content-font-menu");
- 
+
       var closeFontMenu = function () {
         fontMenu.hidden = true;
         fontTrigger.setAttribute("aria-expanded", "false");
       };
- 
+
+      fontTrigger.addEventListener("mousedown", function (e) { e.preventDefault(); });
       fontTrigger.addEventListener("click", function () {
         var isOpen = !fontMenu.hidden;
         closeFontMenu();
@@ -196,18 +229,18 @@
           fontTrigger.setAttribute("aria-expanded", "true");
         }
       });
- 
+
       // mousedown (not click) so the editor's text selection survives
       // the click on the menu — execCommand needs that selection intact.
       fontMenu.addEventListener("mousedown", function (e) { e.preventDefault(); });
- 
+
       fontMenu.addEventListener("click", function (e) {
         var opt = e.target.closest(".rte-font-option");
         closeFontMenu();
         if (!opt) return;
         var family = opt.dataset.value;
         fontTriggerLabel.textContent = opt.textContent;
-        editor.focus();
+        restoreSelection();
         // execCommand("fontName") wraps the selection in <font face="...">
         // — swap that for a <span style="font-family:..."> so the saved
         // HTML is clean and the font stack (with fallbacks) is preserved.
@@ -218,13 +251,14 @@
           span.innerHTML = el.innerHTML;
           el.replaceWith(span);
         });
+        saveSelectionIfInEditor();
       });
- 
+
       document.addEventListener("click", function (e) {
         if (!fontPicker.contains(e.target)) closeFontMenu();
       });
     }
- 
+
     function syncToolbarState() {
       toolbar.querySelectorAll("[data-cmd]").forEach(function (btn) {
         var isActive = false;
@@ -232,25 +266,25 @@
         btn.classList.toggle("active", isActive);
       });
     }
- 
+
     editor.addEventListener("keyup", syncToolbarState);
     editor.addEventListener("mouseup", syncToolbarState);
   }
- 
+
   /* -------------------------------------------------------------
      EDITOR (admin/editor.html) — create or update a post
   ------------------------------------------------------------- */
   function initEditor() {
     var form = document.getElementById("post-form");
     if (!form) return;
- 
+
     initRichTextToolbar();
     var contentEditor = document.getElementById("content");
- 
+
     var params = new URLSearchParams(window.location.search);
     var editId = params.get("id");
     var heading = document.getElementById("editor-heading");
- 
+
     requireAuth().then(async function (session) {
       if (!session) return;
       if (editId) {
@@ -268,7 +302,7 @@
         heading.textContent = "New Post";
       }
     });
- 
+
     var fileInput = document.getElementById("cover_image_file");
     var preview = document.getElementById("cover_image_preview");
     if (fileInput && preview) {
@@ -279,28 +313,28 @@
         preview.hidden = false;
       });
     }
- 
+
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
       var saveBtn = document.getElementById("save-btn");
- 
+
       var contentHtml = contentEditor ? contentEditor.innerHTML.trim() : "";
       if (!contentHtml || contentEditor.textContent.trim() === "") {
         alert("Please write some content for the post before saving.");
         return;
       }
- 
+
       saveBtn.disabled = true;
- 
+
       var coverImage = document.getElementById("cover_image").value.trim();
       var selectedFile = fileInput && fileInput.files && fileInput.files[0];
- 
+
       try {
         if (selectedFile) {
           saveBtn.textContent = "Uploading image…";
           coverImage = await window.ADA.data.uploadImage(selectedFile);
         }
- 
+
         var payload = {
           title: document.getElementById("title").value.trim(),
           category: document.getElementById("category").value,
@@ -309,7 +343,7 @@
           cover_image: coverImage || "https://picsum.photos/seed/" + Date.now() + "/800/500",
           status: document.getElementById("status").value,
         };
- 
+
         saveBtn.textContent = "Saving…";
         if (editId) {
           await window.ADA.data.updatePost(editId, payload);
@@ -324,14 +358,14 @@
       }
     });
   }
- 
+
   /* -------------------------------------------------------------
      MESSAGES (admin/messages.html) — read-only list
   ------------------------------------------------------------- */
   function initMessages() {
     var table = document.getElementById("messages-table-body");
     if (!table) return;
- 
+
     requireAuth().then(async function (session) {
       if (!session) return;
       try {
@@ -356,17 +390,17 @@
       }
     });
   }
- 
+
   /* -------------------------------------------------------------
      APPLICATIONS (admin/applications.html) — read-only list + resume download
   ------------------------------------------------------------- */
   function initApplications() {
     var table = document.getElementById("applications-table-body");
     if (!table) return;
- 
+
     var allApplications = [];
     var activeFilter = "";
- 
+
     requireAuth().then(async function (session) {
       if (!session) return;
       try {
@@ -377,7 +411,7 @@
         console.error(err);
       }
     });
- 
+
     document.querySelectorAll("[data-filter]").forEach(function (tab) {
       tab.addEventListener("click", function () {
         document.querySelectorAll("[data-filter]").forEach(function (t) { t.classList.remove("active"); });
@@ -386,27 +420,27 @@
         render();
       });
     });
- 
+
     function render() {
       var list = activeFilter
         ? allApplications.filter(function (a) { return a.application_type === activeFilter; })
         : allApplications;
- 
+
       if (!list.length) {
         table.innerHTML = '<tr><td colspan="5">No applications yet.</td></tr>';
         return;
       }
- 
+
       table.innerHTML = list.map(function (a) {
         var typeLabel = a.application_type === "internship" ? "Internship" : "Associate";
         var details = a.application_type === "internship"
           ? [a.college, a.study_year, a.duration].filter(Boolean).join(" &middot; ")
           : [a.bar_enrolment_no, a.years_experience, a.practice_area].filter(Boolean).join(" &middot; ");
- 
+
         var resumeCell = a.resume_path
           ? '<a class="btn btn--sm btn--outline-dark" href="' + window.ADA.data.resumeDownloadUrl(a.id) + '" target="_blank" rel="noopener">Download</a>'
           : '<span style="color:var(--ink-500);font-size:.82rem;">Not attached</span>';
- 
+
         return (
           "<tr>" +
             "<td>" + typeLabel + "</td>" +
@@ -419,23 +453,23 @@
       }).join("");
     }
   }
- 
+
   /* -------------------------------------------------------------
      IMPORTANT LINKS (admin/links.html) — add / edit / delete
   ------------------------------------------------------------- */
   function initLinks() {
     var form = document.getElementById("link-form");
     if (!form) return;
- 
+
     var table = document.getElementById("links-table-body");
     var saveBtn = document.getElementById("link-save-btn");
     var cancelBtn = document.getElementById("link-cancel-btn");
     var editingId = null;
- 
+
     requireAuth().then(function (session) {
       if (session) loadLinks();
     });
- 
+
     async function loadLinks() {
       table.innerHTML = '<tr><td colspan="4">Loading&hellip;</td></tr>';
       try {
@@ -457,7 +491,7 @@
             "</tr>"
           );
         }).join("");
- 
+
         table.querySelectorAll("[data-edit]").forEach(function (btn) {
           btn.addEventListener("click", function () {
             var link = links.find(function (l) { return String(l.id) === btn.getAttribute("data-edit"); });
@@ -472,7 +506,7 @@
             form.scrollIntoView({ behavior: "smooth" });
           });
         });
- 
+
         table.querySelectorAll("[data-delete]").forEach(function (btn) {
           btn.addEventListener("click", async function () {
             if (!confirm("Delete this link?")) return;
@@ -485,7 +519,7 @@
         console.error(err);
       }
     }
- 
+
     function resetForm() {
       editingId = null;
       form.reset();
@@ -493,9 +527,9 @@
       saveBtn.textContent = "Add Link";
       cancelBtn.hidden = true;
     }
- 
+
     cancelBtn.addEventListener("click", resetForm);
- 
+
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
       var payload = {
@@ -504,7 +538,7 @@
         description: document.getElementById("link-description").value.trim(),
         display_order: parseInt(document.getElementById("link-order").value, 10) || 0,
       };
- 
+
       saveBtn.disabled = true;
       try {
         if (editingId) {
@@ -521,7 +555,7 @@
       }
     });
   }
- 
+
   document.addEventListener("DOMContentLoaded", function () {
     initLoginPage();
     initDashboard();
@@ -532,4 +566,3 @@
     initLogout();
   });
 })();
- 
