@@ -17,19 +17,19 @@
 
 // ===================== EDIT THESE FOUR VALUES =====================
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'u925204098_project1');
-define('DB_USER', 'u925204098_project1db');
-define('DB_PASS', '@dityaAD7');
+define('DB_NAME', 'u925204098_adalawchamber');
+define('DB_USER', 'u925204098_adalawchamber');
+define('DB_PASS', 'adalawchamber@DB1');
 // ====================================================================
 
 // A random secret used only once, by api/setup-admin.php, to create
 // your first admin login. Change this to your own random string
 // before uploading, then see api/setup-admin.php for how it's used.
-// https://hotpink-bee-886033.hostingersite.com/api/setup-admin.php?secret=LoremIpsumissimplydummytextoftheprintingandtypesetting&email=admin@adalawchamber.com&password=@AdaPass123
+// https://darkorchid-herring-326698.hostingersite.com/api/setup-admin.php?secret=ylwBjUZ1I2uCQqsQZrzPYVoIl5LBmMx7PZAdBXWp5Pc&email=admin@adalawchamber.com&password=@AdaPass123
 // email=admin@adalawchamber.com
 // password=@AdaPass123
 
-define('SETUP_SECRET', 'LoremIpsumissimplydummytextoftheprintingandtypesetting');
+define('SETUP_SECRET', 'ylwBjUZ1I2uCQqsQZrzPYVoIl5LBmMx7PZAdBXWp5Pc');
 
 
 // Where uploaded files are stored on the server (resumes + post images)
@@ -56,6 +56,19 @@ define('RESUME_MAX_BYTES', 5 * 1024 * 1024); // 5MB
 define('IMAGE_ALLOWED_EXT', ['jpg', 'jpeg', 'png', 'webp']);
 define('IMAGE_ALLOWED_MIME', ['image/jpeg', 'image/png', 'image/webp']);
 define('IMAGE_MAX_BYTES', 4 * 1024 * 1024); // 4MB
+
+// Allowed document types for the Articles section (PPT/PDF/Doc downloads)
+define('ARTICLE_ALLOWED_EXT', ['pdf', 'ppt', 'pptx', 'doc', 'docx']);
+define('ARTICLE_ALLOWED_MIME', [
+    'application/pdf',
+    'application/vnd.ms-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/zip', // .pptx/.docx sometimes report as zip depending on server config
+    'application/octet-stream',
+]);
+define('ARTICLE_MAX_BYTES', 20 * 1024 * 1024); // 20MB
 
 session_start();
 

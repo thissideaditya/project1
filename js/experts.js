@@ -8,16 +8,15 @@
   "use strict";
 
   var EXPERTS = [
-    { name: "Ashu Dalmia", role: "FOUNDER · CHARTERED ACCOUNTANT & ADVOCATE", img: "/assets/images/ashuImage.png" },
-    { name: "Smita Raj", role: "Tax PROFESSIONAL", img: "/assets/images/smitaImage.png" },
-    { name: "Adv. Ankita Jha", role: "LEGAL PRACTITIONER", img: "/assets/images/ankitaImage.png" },
-    { name: "CA. CMA. Avanit Chaturvedi", role: "FINANCE & LEGAL PROFESSIONAL", img: "/assets/images/avanitImage.png" },
-    { name: "Neelam ", role: "Advocate", img: "/assets/images/neelamImage.png" },
-    { name: "Ishu Bharti Jha", role: "MANAGER · ASSOCIATE", img: "/assets/images/ishuImage.png" },
-    { name: "CA (Dr.) Sunil Goel", role: "CONSULTANT · CONTRACTS, COMPLIANCE & INVESTIGATIONS", img: "/assets/images/sunilImage.png" },
-    { name: "Saurabh Sharma", role: "CONSULTANT · BANKING & FINANCIAL SERVICES", img: "/assets/images/saurabhImage.png" },
-    { name: "Anuj Dalmia", role: "CONSULTANT · START-UP & TRANSACTION ADVISORY", img: "/assets/images/anujImage.png" },
-    { name: "CA Ravish Barahia", role: "CONSULTANT", img: "/assets/images/ravishImage.png" },
+    { name: "Ashu Dalmia", role: "FOUNDER · CHARTERED ACCOUNTANT & ADVOCATE", img: "/assets/images/ashuImage.webp" },
+    { name: "Smita Raj", role: "Tax PROFESSIONAL", img: "/assets/images/smitaImage.webp" },
+    { name: "Adv. Ankita Jha", role: "LEGAL PRACTITIONER", img: "/assets/images/ankitaImage.webp" },
+    { name: "Neelam ", role: "Advocate", img: "/assets/images/neelamImage.webp" },
+    { name: "Ishu Bharti Jha", role: "MANAGER · ASSOCIATE", img: "/assets/images/ishuImage.webp" },
+    { name: "CA (Dr.) Sunil Goel", role: "CONSULTANT · CONTRACTS, COMPLIANCE & INVESTIGATIONS", img: "/assets/images/sunilImage.webp" },
+    { name: "Saurabh Sharma", role: "CONSULTANT · BANKING & FINANCIAL SERVICES", img: "/assets/images/saurabhImage.webp" },
+    { name: "Anuj Dalmia", role: "CONSULTANT · START-UP & TRANSACTION ADVISORY", img: "/assets/images/anujImage.webp" },
+    { name: "CA Ravish Barahia", role: "CONSULTANT", img: "/assets/images/ravishImage.webp" },
   ];
 
   function escapeHtml(str) {

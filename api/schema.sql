@@ -70,9 +70,36 @@ CREATE TABLE IF NOT EXISTS important_links (
   created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS articles (
+  id            INT AUTO_INCREMENT PRIMARY KEY,
+  title         VARCHAR(255) NOT NULL,
+  slug          VARCHAR(255) NOT NULL UNIQUE,
+  description   TEXT,
+  file_url      VARCHAR(500) NOT NULL,
+  file_type     VARCHAR(20) NOT NULL,
+  cover_image   VARCHAR(500),
+  status        ENUM('draft', 'published') NOT NULL DEFAULT 'draft',
+  created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_status_created (status, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS resources (
+  id            INT AUTO_INCREMENT PRIMARY KEY,
+  category      VARCHAR(190) NOT NULL,
+  subcategory   VARCHAR(190),
+  title         VARCHAR(255) NOT NULL,
+  url           VARCHAR(500) NOT NULL,
+  description   TEXT,
+  display_order INT NOT NULL DEFAULT 0,
+  created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_category (category, subcategory, display_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- NOTE: if your database already exists from an earlier deploy, you only
--- need to run this one CREATE TABLE block above (all the others already
--- exist) — every statement here uses IF NOT EXISTS so it's safe either way.
+-- need to run the CREATE TABLE blocks above that you don't already have
+-- (e.g. just "articles" and "resources" if everything else already
+-- exists) — every statement here uses IF NOT EXISTS so it's safe either
+-- way to run the whole file again.
 
 -- Sample published posts so Rules/Thoughts aren't empty on first load.
 -- Safe to delete from phpMyAdmin once you've added your own.

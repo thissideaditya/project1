@@ -556,6 +556,248 @@
     });
   }
 
+  function initResources() {
+    var form = document.getElementById("resource-form");
+    if (!form) return;
+
+    var table = document.getElementById("resources-table-body");
+    var saveBtn = document.getElementById("resource-save-btn");
+    var cancelBtn = document.getElementById("resource-cancel-btn");
+    var editingId = null;
+
+    requireAuth().then(function (session) {
+      if (session) loadResources();
+    });
+
+    async function loadResources() {
+      table.innerHTML = '<tr><td colspan="5">Loading&hellip;</td></tr>';
+      try {
+        var resources = await window.ADA.data.fetchResources();
+        if (!resources.length) {
+          table.innerHTML = '<tr><td colspan="5">No resources yet. Add one above.</td></tr>';
+          return;
+        }
+        table.innerHTML = resources.map(function (r) {
+          return (
+            "<tr>" +
+              "<td>" + escapeHtml(r.category) + "</td>" +
+              "<td>" + escapeHtml(r.subcategory || "") + "</td>" +
+              "<td>" + escapeHtml(r.title) + "</td>" +
+              "<td style=\"max-width:220px;overflow-wrap:anywhere;\"><a href=\"" + escapeHtml(r.url) + "\" target=\"_blank\" rel=\"noopener\">" + escapeHtml(r.url) + "</a></td>" +
+              "<td style=\"white-space:nowrap;\">" +
+                "<button class=\"btn btn--sm btn--outline-dark\" data-edit=\"" + r.id + "\">Edit</button> " +
+                "<button class=\"btn btn--sm btn--danger\" data-delete=\"" + r.id + "\">Delete</button>" +
+              "</td>" +
+            "</tr>"
+          );
+        }).join("");
+
+        table.querySelectorAll("[data-edit]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var resource = resources.find(function (r) { return String(r.id) === btn.getAttribute("data-edit"); });
+            if (!resource) return;
+            editingId = resource.id;
+            document.getElementById("resource-category").value = resource.category || "";
+            document.getElementById("resource-subcategory").value = resource.subcategory || "";
+            document.getElementById("resource-title").value = resource.title || "";
+            document.getElementById("resource-url").value = resource.url || "";
+            document.getElementById("resource-description").value = resource.description || "";
+            document.getElementById("resource-order").value = resource.display_order || 0;
+            saveBtn.textContent = "Update Resource";
+            cancelBtn.hidden = false;
+            form.scrollIntoView({ behavior: "smooth" });
+          });
+        });
+
+        table.querySelectorAll("[data-delete]").forEach(function (btn) {
+          btn.addEventListener("click", async function () {
+            if (!confirm("Delete this resource?")) return;
+            await window.ADA.data.deleteResource(btn.getAttribute("data-delete"));
+            loadResources();
+          });
+        });
+      } catch (err) {
+        table.innerHTML = '<tr><td colspan="5">Could not load resources.</td></tr>';
+        console.error(err);
+      }
+    }
+
+    function resetForm() {
+      editingId = null;
+      form.reset();
+      document.getElementById("resource-order").value = 0;
+      saveBtn.textContent = "Add Resource";
+      cancelBtn.hidden = true;
+    }
+
+    cancelBtn.addEventListener("click", resetForm);
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      var payload = {
+        category: document.getElementById("resource-category").value.trim(),
+        subcategory: document.getElementById("resource-subcategory").value.trim(),
+        title: document.getElementById("resource-title").value.trim(),
+        url: document.getElementById("resource-url").value.trim(),
+        description: document.getElementById("resource-description").value.trim(),
+        display_order: parseInt(document.getElementById("resource-order").value, 10) || 0,
+      };
+
+      saveBtn.disabled = true;
+      try {
+        if (editingId) {
+          await window.ADA.data.updateResource(editingId, payload);
+        } else {
+          await window.ADA.data.createResource(payload);
+        }
+        resetForm();
+        loadResources();
+      } catch (err) {
+        alert("Could not save resource: " + err.message);
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+  }
+
+  /* -------------------------------------------------------------
+     ARTICLES (admin/articles.html) — list, mirrors the post dashboard
+  ------------------------------------------------------------- */
+  function initArticlesList() {
+    var table = document.getElementById("articles-table-body");
+    if (!table) return;
+
+    requireAuth().then(function (session) {
+      if (session) loadArticles();
+    });
+
+    async function loadArticles() {
+      table.innerHTML = '<tr><td colspan="4">Loading&hellip;</td></tr>';
+      try {
+        var articles = await window.ADA.data.fetchAllArticles();
+        if (!articles.length) {
+          table.innerHTML = '<tr><td colspan="4">No articles yet. <a href="article-editor.html">Add one</a>.</td></tr>';
+          return;
+        }
+        table.innerHTML = articles.map(function (a) {
+          return (
+            "<tr>" +
+              "<td>" + escapeHtml(a.title) + "</td>" +
+              "<td>" + escapeHtml((a.file_type || "").toUpperCase()) + "</td>" +
+              "<td>" + (a.status === "published"
+                ? '<span class="badge badge--gold">Published</span>'
+                : '<span class="badge">Draft</span>') + "</td>" +
+              "<td style=\"white-space:nowrap;\">" +
+                "<a class=\"btn btn--sm btn--outline-dark\" href=\"article-editor.html?id=" + a.id + "\">Edit</a> " +
+                "<button class=\"btn btn--sm btn--danger\" data-delete=\"" + a.id + "\">Delete</button>" +
+              "</td>" +
+            "</tr>"
+          );
+        }).join("");
+
+        table.querySelectorAll("[data-delete]").forEach(function (btn) {
+          btn.addEventListener("click", async function () {
+            if (!confirm("Delete this article?")) return;
+            await window.ADA.data.deleteArticle(btn.getAttribute("data-delete"));
+            loadArticles();
+          });
+        });
+      } catch (err) {
+        table.innerHTML = '<tr><td colspan="4">Could not load articles.</td></tr>';
+        console.error(err);
+      }
+    }
+  }
+
+  /* -------------------------------------------------------------
+     ARTICLE EDITOR (admin/article-editor.html) — create or update
+  ------------------------------------------------------------- */
+  function initArticleEditor() {
+    var form = document.getElementById("article-form");
+    if (!form) return;
+
+    var params = new URLSearchParams(window.location.search);
+    var editId = params.get("id");
+    var heading = document.getElementById("article-editor-heading");
+
+    var fileInput = document.getElementById("article-file");
+    var fileLabel = document.getElementById("article-file-label");
+    var existingFileUrl = null;
+    var existingFileType = null;
+
+    requireAuth().then(async function (session) {
+      if (!session) return;
+      if (editId) {
+        heading.textContent = "Edit Article";
+        var article = await window.ADA.data.fetchArticleById(editId);
+        if (article) {
+          document.getElementById("article-title").value = article.title || "";
+          document.getElementById("article-description").value = article.description || "";
+          document.getElementById("article-status").value = article.status || "draft";
+          existingFileUrl = article.file_url || null;
+          existingFileType = article.file_type || null;
+          if (existingFileUrl) {
+            fileLabel.textContent = "Current file: " + existingFileUrl.split("/").pop() + " (choose a new file only to replace it)";
+          }
+        }
+      } else {
+        heading.textContent = "New Article";
+      }
+    });
+
+    if (fileInput && fileLabel) {
+      fileInput.addEventListener("change", function () {
+        var file = fileInput.files && fileInput.files[0];
+        fileLabel.textContent = file ? file.name : "No file chosen";
+      });
+    }
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      var saveBtn = document.getElementById("article-save-btn");
+
+      var selectedFile = fileInput && fileInput.files && fileInput.files[0];
+      if (!selectedFile && !existingFileUrl) {
+        alert("Please choose a file (PDF, PPT, PPTX, DOC, or DOCX) to upload.");
+        return;
+      }
+
+      saveBtn.disabled = true;
+
+      try {
+        var fileUrl = existingFileUrl;
+        var fileType = existingFileType;
+
+        if (selectedFile) {
+          saveBtn.textContent = "Uploading file…";
+          var uploaded = await window.ADA.data.uploadArticleFile(selectedFile);
+          fileUrl = uploaded.url;
+          fileType = uploaded.file_type;
+        }
+
+        var payload = {
+          title: document.getElementById("article-title").value.trim(),
+          description: document.getElementById("article-description").value.trim(),
+          file_url: fileUrl,
+          file_type: fileType,
+          status: document.getElementById("article-status").value,
+        };
+
+        saveBtn.textContent = "Saving…";
+        if (editId) {
+          await window.ADA.data.updateArticle(editId, payload);
+        } else {
+          await window.ADA.data.createArticle(payload);
+        }
+        window.location.href = "articles.html";
+      } catch (err) {
+        alert("Could not save article: " + err.message);
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Save Article";
+      }
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initLoginPage();
     initDashboard();
@@ -563,6 +805,9 @@
     initMessages();
     initApplications();
     initLinks();
+    initResources();
+    initArticlesList();
+    initArticleEditor();
     initLogout();
   });
 })();

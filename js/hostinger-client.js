@@ -156,6 +156,91 @@
       await request("/links.php?id=" + encodeURIComponent(id), { method: "DELETE" });
       return true;
     },
+
+    // ---------------------------------------------------------------
+    // Articles (PPT/PDF/Doc downloads)
+    // ---------------------------------------------------------------
+    async fetchArticles() {
+      var body = await request("/articles.php");
+      return body.articles || [];
+    },
+
+    async fetchArticleBySlug(slug) {
+      var body = await request("/articles.php?slug=" + encodeURIComponent(slug));
+      return body.article || null;
+    },
+
+    async fetchAllArticles() {
+      var body = await request("/articles.php?all=1");
+      return body.articles || [];
+    },
+
+    async fetchArticleById(id) {
+      var body = await request("/articles.php?all=1&id=" + encodeURIComponent(id));
+      return body.article || null;
+    },
+
+    async createArticle(article) {
+      var body = await request("/articles.php", {
+        method: "POST",
+        headers: jsonHeaders(),
+        body: JSON.stringify(article),
+      });
+      return body.article;
+    },
+
+    async updateArticle(id, updates) {
+      var body = await request("/articles.php?id=" + encodeURIComponent(id), {
+        method: "PUT",
+        headers: jsonHeaders(),
+        body: JSON.stringify(updates),
+      });
+      return body.article;
+    },
+
+    async deleteArticle(id) {
+      await request("/articles.php?id=" + encodeURIComponent(id), { method: "DELETE" });
+      return true;
+    },
+
+    /** Upload an Article/PPT/PDF/Doc File and get back its URL + detected type. */
+    async uploadArticleFile(file) {
+      var formData = new FormData();
+      formData.append("file", file);
+      var body = await request("/upload-file.php", { method: "POST", body: formData });
+      return { url: body.url, file_type: body.file_type };
+    },
+
+    // ---------------------------------------------------------------
+    // Resources (category/subcategory grouped links)
+    // ---------------------------------------------------------------
+    async fetchResources() {
+      var body = await request("/resources.php");
+      return body.resources || [];
+    },
+
+    async createResource(resource) {
+      var body = await request("/resources.php", {
+        method: "POST",
+        headers: jsonHeaders(),
+        body: JSON.stringify(resource),
+      });
+      return body.resource;
+    },
+
+    async updateResource(id, updates) {
+      var body = await request("/resources.php?id=" + encodeURIComponent(id), {
+        method: "PUT",
+        headers: jsonHeaders(),
+        body: JSON.stringify(updates),
+      });
+      return body.resource;
+    },
+
+    async deleteResource(id) {
+      await request("/resources.php?id=" + encodeURIComponent(id), { method: "DELETE" });
+      return true;
+    },
   };
 
   global.ADA = global.ADA || {};

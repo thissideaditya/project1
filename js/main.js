@@ -127,6 +127,13 @@
   document.addEventListener("DOMContentLoaded", function () {
     initFloatingContact();
     initDisclaimer();
+  });
+
+  // Nav toggling, active-link highlighting, and the footer year all
+  // need the real header/footer markup in the DOM first — which
+  // partials.js injects asynchronously — so they run off this event
+  // instead of DOMContentLoaded. See js/partials.js.
+  document.addEventListener("ada:partials-loaded", function () {
     initNav();
     markActiveLink();
     setYear();

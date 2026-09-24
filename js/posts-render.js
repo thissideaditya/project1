@@ -1,5 +1,5 @@
 /* ===================================================================
-   ADA LAW CHAMBER — posts-render.js
+   ADA LAW CHAMBER - posts-render.js
    Renders Supabase/local post data into the Rules, Thoughts and
    single-article pages. Reusable across all three via data-category
    / data-mode attributes set on <body>.
@@ -25,14 +25,14 @@
     var label = post.category === "rule" ? "Rules" : "Thoughts";
     return (
       '<article class="post-card">' +
-        '<a class="thumb" href="' + basePath + 'post.html?slug=' + encodeURIComponent(post.slug) + '">' +
+        '<a class="thumb" href="' + basePath + 'post.php?slug=' + encodeURIComponent(post.slug) + '">' +
           '<img src="' + escapeHtml(post.cover_image) + '" alt="' + escapeHtml(post.title) + '" loading="lazy">' +
         "</a>" +
         '<div class="body">' +
-          '<span class="meta">' + label + " · " + formatDate(post.created_at) + "</span>" +
+          '<span class="meta">' + label + " | " + formatDate(post.created_at) + "</span>" +
           "<h3>" + escapeHtml(post.title) + "</h3>" +
           "<p>" + escapeHtml(post.excerpt) + "</p>" +
-          '<a class="read-more" href="' + basePath + 'post.html?slug=' + encodeURIComponent(post.slug) + '">Read more &rarr;</a>' +
+          '<a class="read-more" href="' + basePath + 'post.php?slug=' + encodeURIComponent(post.slug) + '">Read more &rarr;</a>' +
         "</div>" +
       "</article>"
     );
@@ -75,20 +75,21 @@
         mount.innerHTML = '<div class="empty-state">This article could not be found. It may have been unpublished.</div>';
         return;
       }
-      document.title = post.title + " — ADA Law Chamber";
+      document.title = post.title + " - ADA Law Chamber";
       var label = post.category === "rule" ? "Rules" : "Thoughts";
-      var paragraphs = (post.content || "")
-        .split(/\n\s*\n/)
-        .map(function (p) { return "<p>" + escapeHtml(p).replace(/\n/g, "<br>") + "</p>"; })
-        .join("");
+      // Content is authored by the admin via the rich-text editor and
+      // saved as HTML (bold/italic/headings/font size), so it's
+      // rendered as-is rather than escaped - there's no public
+      // submission path into this field.
+      var contentHtml = post.content || "";
 
       mount.innerHTML =
         '<header class="article-header">' +
-          '<span class="eyebrow">' + label + " · " + formatDate(post.created_at) + "</span>" +
+          '<span class="eyebrow">' + label + " | " + formatDate(post.created_at) + "</span>" +
           "<h1>" + escapeHtml(post.title) + "</h1>" +
         "</header>" +
         '<img src="' + escapeHtml(post.cover_image) + '" alt="" style="border-radius:6px;margin-bottom:2.5rem;max-height:420px;object-fit:cover;width:100%;">' +
-        '<div class="article-body">' + paragraphs + "</div>";
+        '<div class="article-body">' + contentHtml + "</div>";
     } catch (err) {
       mount.innerHTML = '<div class="empty-state">Unable to load this article right now.</div>';
       console.error(err);
